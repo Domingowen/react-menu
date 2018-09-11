@@ -3,27 +3,26 @@ import TakeoutList from './TakeoutList';
 // import TakeoutDetail from './TakeoutDetail';
 import TakeoutNav from './TakeoutNav';
 import axios from 'axios';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 class Takeout extends React.Component {
 	constructor (props) {
 		super();
 		this.state = {
 			classify: null,
-			listData: []
+			listData: [],
+			page: null,
+			pageTotal: null,
 		}
 	}
 	selectClassify (val) {
-		console.log(val);
 		this.setState({
 			classify: val
-		})
+		}, this.confirmSelect)
 	}
 	searchMenu (val) {
-		console.log(val);
 		if (val) {
 			axios({
 				method: 'post',
-				url: 'http://192.168.99.54:8888/searchMenu',
+				url: 'http://192.168.72.161:4000/searchMenu',
 				data: {
 					search: val,
 					page: 1
@@ -37,12 +36,11 @@ class Takeout extends React.Component {
 		} else {
 			axios({
 				method: 'post',
-				url: 'http://192.168.99.54:8888/searchMenu',
+				url: 'http://192.168.72.161:4000/searchMenu',
 				data: {
 					page: 1
 				}
 			}).then((res) => {
-				console.log(res);
 				this.setState({
 					listData: res.data.data.data
 				})
@@ -52,15 +50,17 @@ class Takeout extends React.Component {
 	confirmSelect () {
 		axios({
 			method: 'post',
-			url: 'http://192.168.99.54:8888/searchFood',
+			url: 'http://192.168.72.161:4000/searchFood',
 			data: {
+				page: 1,
 				classify: this.state.classify
 			}
 		}).then((res) => {
 			console.log(res);
-			// this.setState({
-			// 	listData: res.data.data.data
-			// })
+			this.setState({
+				listData: res.data.data.data,
+				pageTotal: res.data.data.page_count,
+			})
 		})
 	}
 	loadMore () {
@@ -72,8 +72,8 @@ class Takeout extends React.Component {
 		};
 		return (
 			<div style={container}>
-				<TakeoutNav changeClassify={this.selectClassify} searchMenu={this.searchMenu.bind(this)} confirm={this.confirmSelect}/>
-				<TakeoutList listData={this.state.listData}/>
+				<TakeoutNav changeClassify={this.selectClassify.bind(this)} searchMenu={this.searchMenu.bind(this)} confirm={this.confirmSelect}/>
+				<TakeoutList listData={this.state.listData} classify={this.state.classify} pageTotal={this.state.pageTotal}/>
 				{/*<TakeoutDetail/>*/}
 			</div>
 		)

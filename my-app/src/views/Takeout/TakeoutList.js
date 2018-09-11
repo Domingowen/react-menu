@@ -18,10 +18,10 @@ class TakeoutList extends React.Component {
 	}
 	shouldComponentUpdate (nextProps, nextState) {
 		// console.log(nextProps);
-		// console.log(nextState);
 		if(this.props.listData !== nextProps.listData) {
 			this.setState({
-				listData: nextProps.listData
+				listData: nextProps.listData,
+				pageTotal: nextProps.pageTotal
 			})
 		}
 		return true
@@ -30,7 +30,11 @@ class TakeoutList extends React.Component {
 		if (!this.state.loading) {
 			return false;
 		}
+		// console.log(this.state.page);
 		if (this.state.page > this.state.pageTotal) {
+			// this.setState({
+			// 	loading: false
+			// });
 			return false;
 		} else {
 			this.setState({
@@ -38,7 +42,7 @@ class TakeoutList extends React.Component {
 			}, () => {
 				axios({
 					method: 'post',
-					url: 'http://192.168.99.54:8888/getPagination',
+					url: 'http://192.168.72.161:4000/getPagination',
 					data: {
 						page: this.state.page,
 						classify: this.props.classify
@@ -52,10 +56,9 @@ class TakeoutList extends React.Component {
 				});
 			});
 		}
-		console.log(this.state.page);
+		// console.log(this.state.page);
 	}
 	imagesShow (val) {
-		console.log(val);
 		this.setState({
 			imagesList: val,
 			isImageShow: true
@@ -81,7 +84,7 @@ class TakeoutList extends React.Component {
 					loadMore={this.loadMore.bind(this)}
 					hasMore={this.state.loading}
 					initialLoad={false}
-					loader={<div className="loader" key={0}>Loading ...</div>}
+					loader={<div key={0} style={{textAlign: 'center'}}>{this.state.loading ? 'Loading...' : '这是我的底线了'}</div>}
 				>
 					<List
 						itemLayout="vertical"
@@ -111,12 +114,12 @@ class TakeoutList extends React.Component {
 		)
 	}
 	componentDidMount () {
-		axios.post('http://192.168.99.54:8888/getFoodList').then((res) => {
+		axios.post('http://192.168.72.161:4000/getFoodList').then((res) => {
 			this.setState({
 				pageTotal: res.data.data.page_count,
 				listData: res.data.data.data
 			});
-			console.log(this.state.listData);
+			// console.log(this.state.listData);
 		});
 	}
 }
