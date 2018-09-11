@@ -11,7 +11,7 @@ class Travel extends React.Component {
 	componentWillMount () {
 		axios({
 			method: 'post',
-			url: 'http://192.168.72.161:4000/travel',
+			url: 'http://192.168.254.103:4000/travel',
 			data: {
 				boardId: 36,
 				page: 1

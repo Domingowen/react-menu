@@ -55,7 +55,7 @@ export default class SiderMenu extends React.Component {
 					</Menu.Item>
 					<Menu.Item key="/charge" style={navStyle}>
 						<IconFont type="icon-chongzhi" style={{fontSize: '30px'}}/>
-						<span className="nav-text">生活充值</span>
+						<span className="nav-text">生活</span>
 					</Menu.Item>
 					<Menu.Item style={navStyle}>
 						<IconFont type="icon-heijiao"  style={{fontSize: '30px'}}/>

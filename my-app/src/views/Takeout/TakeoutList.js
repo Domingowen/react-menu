@@ -2,7 +2,7 @@ import React from 'react';
 import { List, Avatar, Icon } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import TakeoutImageShow from './TakeoutImageShow';
 class TakeoutList extends React.Component {
 	constructor (props) {
@@ -21,7 +21,9 @@ class TakeoutList extends React.Component {
 		if(this.props.listData !== nextProps.listData) {
 			this.setState({
 				listData: nextProps.listData,
-				pageTotal: nextProps.pageTotal
+				pageTotal: nextProps.pageTotal,
+				page: 2,
+				loading: true
 			})
 		}
 		return true
@@ -42,7 +44,7 @@ class TakeoutList extends React.Component {
 			}, () => {
 				axios({
 					method: 'post',
-					url: 'http://192.168.72.161:4000/getPagination',
+					url: 'http://192.168.254.103:4000/getPagination',
 					data: {
 						page: this.state.page,
 						classify: this.props.classify
@@ -114,7 +116,7 @@ class TakeoutList extends React.Component {
 		)
 	}
 	componentDidMount () {
-		axios.post('http://192.168.72.161:4000/getFoodList').then((res) => {
+		axios.post('http://192.168.254.103:4000/getFoodList').then((res) => {
 			this.setState({
 				pageTotal: res.data.data.page_count,
 				listData: res.data.data.data

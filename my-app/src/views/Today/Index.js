@@ -90,7 +90,8 @@ class Today extends React.Component {
 				justifyContent: 'center',
 				// lineHeight: '100px',
 				marginTop: '10px',
-				borderBottom: '1px solid #e8e8e8'
+				borderBottom: '1px solid #e8e8e8',
+				padding: '0 10px'
 			},
 			main: {
 				marginTop: '10px',
@@ -128,7 +129,6 @@ class Today extends React.Component {
 			<div>
 				{this._renderHeader()}
 				{this._renderContainer()}
-				{/*Hi 下午好，今天阳光很不错哦~~*/}
 			</div>
 		)
 	}
