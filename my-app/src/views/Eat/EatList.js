@@ -46,7 +46,7 @@ class EatList extends React.Component {
                                 <Card
                                     style={eatlist.container}
                                     title={item.title}
-                                    cover={<img width={'300'} height={'300'} alt="食物图片" src={item.imageList[0]} style={eatlist.images}/>}
+                                    cover={<img width={300} height={300} alt="食物图片" src={item.imageList[0]} style={eatlist.images}/>}
                                 >
                                     <div style={eatlist.text}>
                                         {item.subject}
