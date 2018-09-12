@@ -57,11 +57,11 @@ export default class SiderMenu extends React.Component {
 						<IconFont type="icon-chongzhi" style={{fontSize: '30px'}}/>
 						<span className="nav-text">生活</span>
 					</Menu.Item>
-					<Menu.Item style={navStyle}>
+					<Menu.Item key="/music" style={navStyle}>
 						<IconFont type="icon-heijiao"  style={{fontSize: '30px'}}/>
 						<span className="nav-text">全网音乐</span>
 					</Menu.Item>
-					<Menu.Item style={navStyle}>
+					<Menu.Item key="/movie" style={navStyle}>
 						<IconFont type="icon-shipin"  style={{fontSize: '30px'}}/>
 						<span className="nav-text">全网视频</span>
 					</Menu.Item>

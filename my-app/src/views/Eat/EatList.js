@@ -4,9 +4,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 class EatList extends React.Component {
     constructor (props) {
         super();
-        this.state = {
-            loading: true
-        }
     }
     loadMore () {
         this.props.loadMore();
@@ -20,7 +17,13 @@ class EatList extends React.Component {
                 cursor: 'pointer',
             },
             images: {
-
+                backgroundColor: '#fff7e6'
+            },
+	        text: {
+		        overflow: 'hidden',
+                textOverflow:'ellipsis',
+	            whiteSpace: 'nowrap',
+                fontSize: '16px'
             }
         };
         return (
@@ -28,16 +31,16 @@ class EatList extends React.Component {
                 <InfiniteScroll
                     pageStart={1}
                     loadMore={this.loadMore.bind(this)}
-                    hasMore={this.state.loading}
+                    hasMore={this.props.loading}
                     initialLoad={false}
-                    loader={<div key={0} style={{textAlign: 'center'}}>{this.state.loading ? 'Loading...' : '这是我的底线了'}</div>}
+                    loader={<div key={0} style={{textAlign: 'center'}}>{this.props.loading ? 'Loading...' : '这是我的底线了'}</div>}
                 >
                     <List
                         itemLayout="vertical"
                         size="default"
                         dataSource={this.props.listData}
                         style={eatlist.list}
-                        grid={{ gutter: 10, column: 2 }}
+                        grid={{ gutter: 10, column: 3 }}
                         renderItem={item => (
                             <List.Item
                                 key={item.id}
@@ -46,7 +49,7 @@ class EatList extends React.Component {
                                 <Card
                                     style={eatlist.container}
                                     title={item.title}
-                                    cover={<img width={300} height={300} alt="食物图片" src={item.imageList[0]} style={eatlist.images}/>}
+                                    cover={<img width={400} height={400} alt="食物图片" src={item.imageList[0]} style={eatlist.images}/>}
                                 >
                                     <div style={eatlist.text}>
                                         {item.subject}

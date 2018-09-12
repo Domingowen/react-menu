@@ -6,6 +6,8 @@ import Today from '../Today/Index';
 import Eat from '../Eat/Index';
 import Travel from '../Travel/Index';
 import Charge from '../Charge/Index';
+import Movie from '../Movie/Index';
+import Music from '../Music/Index';
 import My from '../My/Index';
 import { Layout, Menu, Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
@@ -28,6 +30,8 @@ class Home extends React.Component {
 							<Route path="/travel" component={Travel}></Route>
 							<Route path="/eat" component={Eat}></Route>
 							<Route path="/charge" component={Charge}></Route>
+							<Route path="/movie" component={Movie}></Route>
+							<Route path="/music" component={Music}></Route>
 							<Route path="/my" component={My}></Route>
 						</Switch>
 					</Content>

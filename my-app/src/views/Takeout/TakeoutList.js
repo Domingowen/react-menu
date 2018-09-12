@@ -44,7 +44,7 @@ class TakeoutList extends React.Component {
 			}, () => {
 				axios({
 					method: 'post',
-					url: 'http://192.168.254.103:4000/getPagination',
+					url: 'http://192.168.99.54:4000/getPagination',
 					data: {
 						page: this.state.page,
 						classify: this.props.classify
@@ -116,7 +116,7 @@ class TakeoutList extends React.Component {
 		)
 	}
 	componentDidMount () {
-		axios.post('http://192.168.254.103:4000/getFoodList').then((res) => {
+		axios.post('http://192.168.99.54:4000/getFoodList').then((res) => {
 			this.setState({
 				pageTotal: res.data.data.page_count,
 				listData: res.data.data.data

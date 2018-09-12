@@ -149,46 +149,8 @@ Router.post('/searchMenu', async (ctx, next) => {
 		data: data
 	}
 });
-Router.post('/travel', async (ctx, next) => {
+Router.post('/flw', async (ctx, next) => {
 	let reqData = ctx.request.body;
-	// let data = await axios({
-	// 	method: 'post',
-	// 	url: 'http://www.flw.ph//mobcent/app/web/index.php?r=forum/topiclistex',
-	// 	headers: {
-	// 		'Host': 'www.flw.ph',
-	// 		'Content-Type': 'application/x-www-form-urlencoded',
-	// 		'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36'
-	// 	},
-	// 	data: {
-	// 		imsi: 1012344748,
-	// 		latitude: '0.0',
-	// 		apphash: 65690465,
-	// 		longitude: '0.0',
-	// 		appName: '菲龙网',
-	// 		authorId: 0,
-	// 		boardId: 36,
-	// 		egnVersion: 'v2101.5',
-	// 		forumKey: 'pamVUXChuxEWW3xrlG',
-	// 		forumType: 7,
-	// 		imei: 863254010101235,
-	// 		packageName: 'com.appbyme.app32067',
-	// 		page: 80,
-	// 		pageSize: 1,
-	// 		platType: 1,
-	// 		sdkType: null,
-	// 		sdkVersion: '2.5.0.0',
-	// 		topicId: 427046,
-	// 		orderby: 'all',
-	// 		sortby: 'all',
-	// 		isImageList: 1
-	// 	}
-	// }).then((res) => {
-	// 	console.log(res);
-	// 	// console.log(ctx);
-	// 	// console.log(1111);
-	// 	// console.log(res.data);
-	// 	// return res.data;
-	// });
 	let data = await request
 		.post('http://www.flw.ph//mobcent/app/web/index.php?r=forum/topiclistex')
 		.send({
@@ -218,6 +180,7 @@ Router.post('/travel', async (ctx, next) => {
 		.set('Content-Type', 'application/x-www-form-urlencoded')
 		.set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36')
 		.then((res) => {
+			// console.log(res);
 			// console.log(JSON.parse(res.text))
 			return JSON.parse(res.text);
 		});

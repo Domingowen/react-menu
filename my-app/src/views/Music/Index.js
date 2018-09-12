@@ -1,5 +1,21 @@
 import React from 'react';
-import { Layout, Menu, Icon } from 'antd';
-const IconFont = Icon.createFromIconfontCN({
-	scriptUrl: '//at.alicdn.com/t/font_831918_ww2kfnpbc5r.js',
-});
+import axios from "axios";
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+export default class Index extends React.Component {
+	render () {
+		const music = {
+			container: {
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				height: '90vh',
+				fontSize: '26px'
+			}
+		};
+		return(
+			<div style={music.container}>
+				由于音乐资源会占据大量的网站资源，所以我们需要等待投资到位的时候开始提供服务
+			</div>
+		)
+	}
+}
