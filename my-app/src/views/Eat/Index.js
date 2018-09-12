@@ -1,30 +1,73 @@
 import React from 'react';
 import axios from "axios";
 import EatList from './EatList';
+import EatDetail from './EatDetail';
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 class Eat extends React.Component {
     constructor (props) {
         super();
         this.state = {
-        	listData: []
+        	listData: [],
+	        totalData: null,
+	        totalPage: null,
+	        loading: true,
+	        page: 1,
 		}
     }
     componentWillMount () {
         axios({
             method: 'post',
-            url: 'http://192.168.254.103:4000/travel',
+            url: 'http://192.168.99.54:4000/flw',
             data: {
                 boardId: 36,
                 page: 1
             }
         }).then((res) => {
-            console.log(res.data.data.list);
-            this.setState({
-                listData: res.data.data.list
-            })
+	        let list = res.data.data.list.filter(val => {
+		        if (val.imageList.length > 0) {
+			        return val;
+		        }
+	        });
+	        let totalData = res.data.data.total_num;
+	        let totalPage = Math.ceil(totalData / 20);
+	        this.setState({
+		        listData: list,
+		        totalData: totalData,
+		        totalPage: totalPage
+	        });
         })
     }
     loadMore () {
-        console.log('加载更多~')
+	    if (this.state.page > this.state.totalPage) {
+		    this.setState({
+			    loading: false
+		    });
+		    return false;
+	    } else {
+		    this.setState({
+			    page: this.state.page + 1,
+			    loading: false
+		    }, () => {
+			    axios({
+				    method: 'post',
+				    url: 'http://192.168.99.54:4000/flw',
+				    data: {
+					    boardId: 36,
+					    page: this.state.page
+				    }
+			    }).then((res) => {
+				    let list = res.data.data.list.filter(val => {
+					    if (val.imageList.length > 0) {
+						    return val;
+					    }
+				    });
+				    this.setState({
+					    listData: this.state.listData.concat(list),
+					    loading: true
+				    })
+			    })
+		    });
+	    }
     }
     render () {
         const eat = {
@@ -37,10 +80,15 @@ class Eat extends React.Component {
                 <div style={eat.header}>
                 </div>
                 <div style={eat.list}>
-                    <EatList
+                    {/*<Switch>*/}
+	                <Router component={EatDetail}/>
+	                {/*<Router path='/detail'/>*/}
+	                {/*</Switch>*/}
+	                <EatList
                         listData={this.state.listData}
                         loadMore={this.loadMore.bind(this)}
-                    />
+                        loading={this.state.loading}
+	                />
                 </div>
             </div>
         )
