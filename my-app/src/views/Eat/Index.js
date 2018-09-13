@@ -81,9 +81,10 @@ class Eat extends React.Component {
                 </div>
                 <div style={eat.list}>
                     {/*<Switch>*/}
-	                <Router component={EatDetail}/>
+                    {/*<Router component={EatDetail}/>*/}
 	                {/*<Router path='/detail'/>*/}
 	                {/*</Switch>*/}
+	                <route component = {EatDetail}/>
 	                <EatList
                         listData={this.state.listData}
                         loadMore={this.loadMore.bind(this)}
