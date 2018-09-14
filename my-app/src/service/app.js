@@ -189,6 +189,47 @@ Router.post('/flw', async (ctx, next) => {
 		data: data
 	}
 });
+Router.post('/flw/detail', async (ctx, next) => {
+    let reqData = ctx.request.body;
+    let data = await request
+        .post('http://www.flw.ph//mobcent/app/web/index.php?r=forum/postlist')
+        .send({
+            imsi: 1012344748,
+            latitude: '0.0',
+            apphash: 65690465,
+            longitude: '0.0',
+            appName: '菲龙网',
+            authorId: 0,
+            boardId: reqData.boardId,
+            egnVersion: 'v2101.5',
+            forumKey: 'pamVUXChuxEWW3xrlG',
+            forumType: 7,
+            imei: 863254010101235,
+			accessToken: '',
+            packageName: 'com.appbyme.app32067',
+            page: reqData.page,
+            pageSize: 20,
+            platType: 1,
+            sdkType: null,
+            sdkVersion: '2.5.0.0',
+            topicId: 427046,
+            orderby: 'all',
+            sortby: 'all',
+            isImageList: 1
+        })
+        .set('Host', 'www.flw.ph')
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.72 Safari/537.36')
+        .then((res) => {
+            // console.log(res);
+            // console.log(JSON.parse(res.text))
+            return JSON.parse(res.text);
+        });
+    return ctx.body ={
+        status: 200,
+        data: data
+    }
+});
 app
 	.use(Router.routes())
 	.use(Router.allowedMethods());

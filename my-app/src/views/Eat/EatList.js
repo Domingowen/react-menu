@@ -1,12 +1,24 @@
 import React from 'react';
 import { List, Avatar, Icon, Card } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
+import history from '../../common/history';
 class EatList extends React.Component {
     constructor (props) {
         super();
     }
     loadMore () {
         this.props.loadMore();
+    }
+    handleDetail (e) {
+        // location.pathname = '/eat/detail'
+        console.log(this.props);
+        console.log(history);
+        history.push({pathname: '/eat/detail', state: {
+                foodId: e
+        }})
+    }
+    componentWillMount () {
+        console.log(this.props);
     }
     render () {
         const eatlist = {
@@ -43,10 +55,11 @@ class EatList extends React.Component {
                         grid={{ gutter: 10, column: 3 }}
                         renderItem={item => (
                             <List.Item
-                                key={item.id}
+                                key={item.topic_id}
                                 // extra={<img width={200} alt="食物图片" src={item.imageList[0]} style={eatlist.images}/>}
                             >
                                 <Card
+                                    onClick={this.handleDetail.bind(this, item.topic_id)}
                                     style={eatlist.container}
                                     title={item.title}
                                     cover={<img width={400} height={400} alt="食物图片" src={item.imageList[0]} style={eatlist.images}/>}

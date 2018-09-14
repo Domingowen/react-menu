@@ -13,7 +13,8 @@ export default class SiderMenu extends React.Component {
 		super();
 	}
 	handleClick = (e) => {
-		console.log(e);
+		// console.log(this.props);
+		// console.log(e);
 		// console.log(this.props);
 		// window.history.push(e.key);
 		history.push(e.key);
@@ -21,6 +22,11 @@ export default class SiderMenu extends React.Component {
 	logoClick = (e) => {
 		history.push('/');
 	};
+	componentWillMount () {
+		console.log(history);
+		// console.log(this.props);
+	}
+
 	render() {
 		// console.log(this.props);
 		// console.log();
@@ -34,7 +40,7 @@ export default class SiderMenu extends React.Component {
 		return (
 			<Sider style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}>
 				<div className="logo" onClick={this.logoClick} style={{color: '#fff', fontSize: '20px', textAlign: 'center', height: '100px', lineHeight: '100px', cursor: 'pointer'}}>
-					M1生活服务平台
+					菲哩咕生活服务平台
 				</div>
 				<Menu theme="dark" mode="inline" selectedKeys={[history.location.pathname]} onClick={this.handleClick}>
 					<Menu.Item key="/" style={navStyle}>

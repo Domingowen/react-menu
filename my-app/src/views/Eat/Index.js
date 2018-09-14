@@ -3,6 +3,7 @@ import axios from "axios";
 import EatList from './EatList';
 import EatDetail from './EatDetail';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import history from '../../common/history';
 class Eat extends React.Component {
     constructor (props) {
         super();
@@ -15,9 +16,11 @@ class Eat extends React.Component {
 		}
     }
     componentWillMount () {
+    	console.log(this.props);
+    	console.log(history);
         axios({
             method: 'post',
-            url: 'http://192.168.99.54:4000/flw',
+            url: 'http://192.168.254.103:4000/flw',
             data: {
                 boardId: 36,
                 page: 1
@@ -50,7 +53,7 @@ class Eat extends React.Component {
 		    }, () => {
 			    axios({
 				    method: 'post',
-				    url: 'http://192.168.99.54:4000/flw',
+				    url: 'http://192.168.254.103:4000/flw',
 				    data: {
 					    boardId: 36,
 					    page: this.state.page
@@ -81,14 +84,22 @@ class Eat extends React.Component {
                 </div>
                 <div style={eat.list}>
                     {/*<Switch>*/}
-	                <Router component={EatDetail}/>
+                    {/*<Router component={EatDetail}/>*/}
 	                {/*<Router path='/detail'/>*/}
 	                {/*</Switch>*/}
-	                <EatList
-                        listData={this.state.listData}
-                        loadMore={this.loadMore.bind(this)}
-                        loading={this.state.loading}
-	                />
+	                <Route path='/eat/detail' component = {EatDetail}/>
+					<Route exact path='/eat' component={() => {
+                        return <EatList
+                            listData={this.state.listData}
+                            loadMore={this.loadMore.bind(this)}
+                            loading={this.state.loading}
+                        />
+					}}/>
+	                {/*<EatList*/}
+                        {/*listData={this.state.listData}*/}
+                        {/*loadMore={this.loadMore.bind(this)}*/}
+                        {/*loading={this.state.loading}*/}
+	                {/*/>*/}
                 </div>
             </div>
         )
