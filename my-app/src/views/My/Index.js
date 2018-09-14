@@ -3,7 +3,7 @@ class My extends React.Component {
 	render () {
 		return (
 			<div>
-				Hi Domingo，下午好
+				个人中心
 			</div>
 		)
 	}

@@ -6,20 +6,33 @@ import Today from '../Today/Index';
 import Eat from '../Eat/Index';
 import Travel from '../Travel/Index';
 import Charge from '../Charge/Index';
+import Movie from '../Movie/Index';
+import Music from '../Music/Index';
 import My from '../My/Index';
 import { Layout, Menu, Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 class Home extends React.Component {
 	constructor (props) {
 		super();
+		this.state = {}
 	}
+	componentWillMount () {
+		// console.log(this.props);
+	}
+	// shouldComponentUpdate (nextProps, nextState) {
+	// 	console.log(nextProps);
+	// 	if (nextProps !== nextProps) {
+	// 		console.log(nextProps);
+	// 	}
+    //     return true;
+	// }
 	render () {
 		return (
 			<Layout>
-				<SiderMenu />
+				<SiderMenu location={this.props}/>
 				<Layout style={{ marginLeft: 200 }}>
 					{/*<Header style={{ background: '#ccc', padding: 0, textAlign: 'center', fontSize: '20px', position: 'fixed', zIndex: 1, width: '100%', color: 'red', height: '10vh', lineHeight: '10vh'}}>*/}
-						{/*M1随手菜单改名M1生活服务平台，13号将会以全新面貌出现，谢谢你们的喜欢*/}
+						{/*M1随手菜单改名菲哩咕生活服务平台*/}
 					{/*</Header>*/}
 					<Content style={{minHeight: '90vh'}}>
 						<Switch>
@@ -28,11 +41,13 @@ class Home extends React.Component {
 							<Route path="/travel" component={Travel}></Route>
 							<Route path="/eat" component={Eat}></Route>
 							<Route path="/charge" component={Charge}></Route>
+							<Route path="/movie" component={Movie}></Route>
+							<Route path="/music" component={Music}></Route>
 							<Route path="/my" component={My}></Route>
 						</Switch>
 					</Content>
 					<Footer style={{ textAlign: 'center' }}>
-						Design by M1 WEHAVE
+						Design by 菲哩咕
 					</Footer>
 				</Layout>
 			</Layout>
