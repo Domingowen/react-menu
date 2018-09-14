@@ -20,7 +20,11 @@ class Eat extends React.Component {
     	console.log(history);
         axios({
             method: 'post',
+<<<<<<< HEAD
             url: 'http://192.168.99.54:20200/flw',
+=======
+            url: 'http://192.168.254.103:4000/flw',
+>>>>>>> 9dc5374b19c8750c724064ef158b490d8c45b987
             data: {
                 boardId: 36,
                 page: 1
@@ -53,7 +57,11 @@ class Eat extends React.Component {
 		    }, () => {
 			    axios({
 				    method: 'post',
+<<<<<<< HEAD
 				    url: 'http://192.168.99.54:20200/flw',
+=======
+				    url: 'http://192.168.254.103:4000/flw',
+>>>>>>> 9dc5374b19c8750c724064ef158b490d8c45b987
 				    data: {
 					    boardId: 36,
 					    page: this.state.page

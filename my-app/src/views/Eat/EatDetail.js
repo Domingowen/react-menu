@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from "axios";
+<<<<<<< HEAD
 import { Layout, Menu, Icon, Input, Button} from 'antd';
 import {Route, Link, Switch} from 'react-router-dom';
 import history from '../../common/history';
@@ -12,10 +13,16 @@ export default class EatDetail extends React.Component {
 			pageInfo: []
 		}
 	}
+=======
+import {Route, Link, Switch} from 'react-router-dom';
+import history from '../../common/history';
+export default class EatDetail extends React.Component {
+>>>>>>> 9dc5374b19c8750c724064ef158b490d8c45b987
 	componentWillMount () {
 		console.log(history);
 		axios({
 			method: 'post',
+<<<<<<< HEAD
             url: 'http://192.168.99.54:20200/flw/detail',
 			data: {
 				id: history.location.state.foodId,
@@ -106,6 +113,20 @@ export default class EatDetail extends React.Component {
 					<TextArea style={{fontSize: '20px'}} placeholder="查看详情信息需要回复内容，但是会共享的哦" autosize={{ minRows: 3, maxRows: 10 }}/>
 					<Button type="primary" style={{marginTop: '30px'}} size='large'>提交</Button>
 				</div>
+=======
+            url: 'http://192.168.254.103:4000/flw/detail',
+			data: {
+				foodId: history.location.state.foodId
+			}
+		}).then((res) => {
+			console.log(res);
+		})
+	}
+	render () {
+		return (
+			<div>
+				111111111111111
+>>>>>>> 9dc5374b19c8750c724064ef158b490d8c45b987
 			</div>
 		)
 	}
