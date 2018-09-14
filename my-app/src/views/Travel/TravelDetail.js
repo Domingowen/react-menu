@@ -13,7 +13,7 @@ export default class TravelDetail extends React.Component {
         // console.log(history);
         axios({
             method: 'post',
-            url: 'http://192.168.99.54:4000/flw/detail',
+            url: 'http://192.168.99.54:20200/flw/detail',
             data: {
                 foodId: history.location.state.foodId
             }
