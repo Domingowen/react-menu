@@ -14,7 +14,7 @@ export default class Index extends React.Component {
 		};
 		return(
 			<div style={music.container}>
-				由于音乐资源会占据大量的网站资源，所以我们需要等待投资到位的时候开始提供服务
+				音乐将会近期上线
 			</div>
 		)
 	}
