@@ -21,10 +21,12 @@ class TravelList extends React.Component {
 			},
 			container: {
 				cursor: 'pointer',
+				height: '500px'
 			},
 			images: {
 				backgroundColor: '#fff7e6',
-				width: '100%'
+				width: '100%',
+				height: '120px',
 			},
 			text: {
 				overflow: 'hidden',
@@ -60,10 +62,11 @@ class TravelList extends React.Component {
 									// cover={[<img width={400} height={400} alt='旅行图片' src={item.imageList[0]} style={travelList.images}/>]}
 								>
 									{item.imageList.map((val, index) => {
-										if (index < 7) {
-											return <Card.Grid style={{width: '25%'}}><img src={val} style={travelList.images} /></Card.Grid>
+										if (index < 6) {
+											return <Card.Grid style={{width: '33.33%'}}><img src={val} style={travelList.images} /></Card.Grid>
 										}
 									})}
+									<Card.Meta></Card.Meta>
 									<div style={travelList.text}>
 										{item.subject}
 									</div>
