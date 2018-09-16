@@ -4,6 +4,7 @@ import './App.css';
 import 'antd/dist/antd.css';
 import Home from './views/Home/Index';
 import {Route, Link, Switch } from "react-router-dom";
+import { hot } from 'react-hot-loader'
 class App extends React.Component {
 	render() {
 		const style = {
@@ -27,4 +28,4 @@ class App extends React.Component {
 	}
 }
 
-export default App;
+export default hot(module)(App)

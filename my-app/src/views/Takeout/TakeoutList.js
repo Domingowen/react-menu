@@ -116,7 +116,7 @@ class TakeoutList extends React.Component {
 		)
 	}
 	componentDidMount () {
-		axios.post('http://192.168.254.103:4000/getFoodList').then((res) => {
+		axios.post('http://192.168.99.54:20200/getFoodList').then((res) => {
 			this.setState({
 				pageTotal: res.data.data.page_count,
 				listData: res.data.data.data

@@ -14,7 +14,7 @@ export default class Index extends React.Component {
 		};
 		return(
 			<div style={movie.container}>
-				由于电影资源会占据大量的网站资源，所以我们需要等待投资到位的时候开始提供服务
+				视频服务近期上线
 			</div>
 		)
 	}

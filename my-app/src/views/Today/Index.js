@@ -113,18 +113,14 @@ class Today extends React.Component {
 		return (
 			<div>
 				<div style={container.title}>
-					<span>小公告：我们改名字啦，菲哩咕生活服务平台~~即将提供外网服务~~菲律宾首家提供视频和音乐的服务平台</span>
+					<span>小公告：菲哩咕生活服务平台，菲律宾首家提供视频和音乐的服务平台</span>
 				</div>
 				<div style={container.main}>
 					<p>1、提供完善的外卖菜单服务</p>
 					<p>2、接入旅游，美食</p>
 					<p>3、提供充值服务商服务</p>
-					<p>4、将会接入全网音乐</p>
-					<p>5、将会提供全网视频</p>
-				</div>
-				<div style={container.statement}>
-					<p>数据源于互联网，我们将会对所有的数据标明来源，我们接受任何一方提供资金支持，以便维持网站正常运行开支，但我们不盈利为目的</p>
-					<p>Thanks Kevin && CRO</p>
+					<p>4、音乐内容将会在近期上线</p>
+					<p>5、视频内容将会在近期上线</p>
 				</div>
 			</div>
 		)
