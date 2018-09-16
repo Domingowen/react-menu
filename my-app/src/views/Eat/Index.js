@@ -16,11 +16,11 @@ class Eat extends React.Component {
 		}
     }
     componentWillMount () {
-    	console.log(this.props);
-    	console.log(history);
+    	// console.log(this.props);
+    	// console.log(history);
         axios({
             method: 'post',
-            url: 'http://192.168.99.54:20200/flw',
+            url: 'http://192.168.254.100:20200/flw',
             data: {
                 boardId: 36,
                 page: 1
@@ -53,7 +53,7 @@ class Eat extends React.Component {
 		    }, () => {
 			    axios({
 				    method: 'post',
-				    url: 'http://192.168.99.54:20200/flw',
+				    url: 'http://192.168.254.100:20200/flw',
 				    data: {
 					    boardId: 36,
 					    page: this.state.page

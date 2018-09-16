@@ -31,7 +31,7 @@ class Travel extends React.Component {
 			}, () => {
 				axios({
 					method: 'post',
-					url: 'http://192.168.99.54:20200/flw',
+					url: 'http://192.168.254.100:20200/flw',
 					data: {
 						boardId: 37,
 						page: this.state.page
@@ -53,7 +53,7 @@ class Travel extends React.Component {
 	componentWillMount () {
 		axios({
 			method: 'post',
-			url: 'http://192.168.99.54:20200/flw',
+			url: 'http://192.168.254.100:20200/flw',
 			data: {
 				boardId: 37,
 				page: 1
