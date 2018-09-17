@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from "axios";
-import {Tabs, Input, List, Avatar} from 'antd';
+import {Tabs, Input, List, Avatar, Icon} from 'antd';
 import jsonp from 'jsonp';
 import InfiniteScroll from 'react-infinite-scroller';
 const Search = Input.Search;
@@ -15,17 +15,20 @@ export default class MusicSearch extends React.Component {
             totalMusic: null,
         }
     }
-    componentWillMount () {
-
-    }
-    // searchResult (err, data) {
-    //     console.log(data);
+    componentWillMount () {}
+    // play (item) {
+    // console.log('我要开始播放了');
+    // console.log(item);
+    // this.props.handleChange('play');
+    // console.log(this.props.handleChange);
     // }
-    play () {
-        console.log('我要开始播放了');
-        this.props.handleChange('play');
-        // console.log(this.props.handleChange);
+	addPlayList (item) {
+        // console.log(item);
+        this.props.addPlayList(item);
     }
+    // componentWillUpdate () {
+    // console.log(1111);
+    // }
     loadMore () {
         this.setState({
             page: this.state.page + 1
@@ -41,48 +44,57 @@ export default class MusicSearch extends React.Component {
             }, searchResult)
         })
     }
+    useKuwo (e) {
+	    let searchResult = (err, data) => {
+	        // console.log(data);
+	        // console.log(this);
+	        this.setState({
+	            listData: data,
+	            totalMusic: data.TOTAL,
+	            totalPage: Math.ceil(data.TOTAL / 10),
+	        });
+	        console.log(this.state);
+	    };
+	    jsonp('http://search.kuwo.cn/r.s', {
+	        param: `all=${this.state.search}&ft=music&client=kt&cluster=0&pn=${this.state.page}&rn=10&rformat=json&encoding=utf8&vipver=MUSIC_8.0.3.1&callback=searchResult`
+	    }, searchResult)
+    }
+    useQQ () {
+	    axios({
+		    method: 'post',
+		    url: 'http://192.168.99.54:20200/music/search/qq',
+		    data: {
+			    search: this.state.search,
+			    page: this.state.page + 1,
+			    type: 'qq',
+                filter: 'name',
+		    }
+	    }).then((res) => {
+		    console.log(res.data.data.data);
+		    this.setState({
+			    listData: res.data.data.data,
+		    });
+	    });
+    }
     handleSearch (e) {
-        // console.log(e);
         this.setState({
             search: e
+        }, () => {
+	        this.useQQ();
         });
-        // () => {
-            // axios({
-            //     method: 'post',
-            //     url: 'http://192.168.254.100:20200/music/search',
-            //     data: {
-            //         search: this.state.search,
-            //         page: this.state.page
-            //     }
-            // }).then((res) => {
-            //     // console.log(res.data.data);
-            //     let data = eval("(" + res.data.data + ")");
-            //     console.log(data);
-            //     // console.log(JSON.stringify(res.data.data));
-            //     // console.log((JSON.parse(res.data.data)));
-            //     // this.setState({
-            //     //     listData: res.data.data.data
-            //     // })
-            // });
-        // });
-        // console.log(data);
-        // console.log(this.state.listData);
-        let searchResult = (err, data) => {
-            // console.log(data);
-            // console.log(this);
-            this.setState({
-                listData: data,
-                totalMusic: data.TOTAL,
-                totalPage: Math.ceil(data.TOTAL / 10),
-            });
-            console.log(this.state);
-        };
-        jsonp('http://search.kuwo.cn/r.s', {
-            param: `all=${e}&ft=music&client=kt&cluster=0&pn=${this.state.page}&rn=10&rformat=json&encoding=utf8&vipver=MUSIC_8.0.3.1&callback=searchResult`
-        }, searchResult)
+
     }
     render () {
         const search = {
+            list: {
+                cursor: 'pointer'
+            },
+	        title: {
+	            display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '40px'
+            }
         };
         return (
             <div>
@@ -102,17 +114,25 @@ export default class MusicSearch extends React.Component {
                     // loading={initLoading}
                     itemLayout="horizontal"
                     // loadMore={loadMore}
-                    dataSource={this.state.listData.abslist}
+                    locale={{emptyText: '暂无数据'}}
+                    dataSource={this.state.listData}
+                    // style={search.list}
                     renderItem={(item, index) => (
-                        <List.Item actions={[<a onClick={this.play.bind(this)}>播放当前歌曲</a>]}>
-                            {/*<Skeleton avatar title={false} loading={item.loading} active>*/}
+                        <List.Item
+                            actions={[<Icon type="play-circle"
+                                            theme="outlined"
+                                            style={{fontSize: '40px', color: '#1890ff'}}
+                                            onClick={this.addPlayList.bind(this, item)} />]}
+                        >
                             <List.Item.Meta
-                                // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                title={`${item.NAME} | ${item.ARTIST}`}
-                                description={`专辑：${item.ALBUM}`}
+                                // title={`${item.NAME} | ${item.ARTIST}`}
+	                            // description={`专辑：${item.ALBUM}`}
+	                            style={search.title}
+                                title={`${item.author} | ${item.title}`}
                             />
-                            {/*<div>content</div>*/}
-                            {/*</Skeleton>*/}
+                            <div>
+	                            <img src={item.pic} alt="pic" width={100} height={100}/>
+                            </div>
                         </List.Item>
                     )}
                 />
