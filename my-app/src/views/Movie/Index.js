@@ -1,20 +1,98 @@
 import React from 'react';
 import axios from "axios";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import _ from 'lodash';
+import { Tabs } from 'antd';
+import { StickyContainer, Sticky } from 'react-sticky';
+import TV from "./TV";
+import Movie from "../Movie/Movie";
+import Shows from "../Movie/Shows";
+import AmericanTV from "../Movie/AmericanTV";
+import Candid from "../Movie/Candid";
+import Cartoon from "../Movie/Cartoon";
+const TabPane = Tabs.TabPane;
 export default class Index extends React.Component {
+	constructor (props) {
+		super();
+		this.state = {
+			activePage: 'movie'
+		}
+	}
+	handleChange (e) {
+		console.log(e);
+		this.setState({
+			activePage: e
+		})
+	}
+	componentWillMount () {
+		this.getData();
+	}
+	getData () {
+		axios({
+			method: 'post',
+			url: 'http://192.168.99.54:20200/movie/list',
+			data: {}
+		}).then((res) => {
+			console.log();
+		})
+	}
 	render () {
 		const movie = {
 			container: {
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
+				backgroundColor: '#fff',
+				// display: 'flex',
+				// justifyContent: 'center',
+				// alignItems: 'center',
 				height: '90vh',
-				fontSize: '26px'
+				// fontSize: '26px'
+			},
+			tabList: {
+				paddingLeft: '10px',
+				paddingRight: '10px',
+				// borderBottom: 'none',
 			}
 		};
+		const renderTabBar = (props, DefaultTabBar) => (
+			<Sticky bottomOffset={0}>
+				{({ style }) => (
+					<DefaultTabBar {...props} style={{ ...style, zIndex: 1, background: '#fff',height: '50px', fontSize: '20px', borderBottom: 'none' }} />
+				)}
+			</Sticky>
+		);
 		return(
 			<div style={movie.container}>
-				视频服务近期上线
+				<StickyContainer>
+					<Tabs
+						defaultActiveKey={this.state.activePage}
+				        activeKey={this.state.activePage}
+				        onChange={this.handleChange.bind(this)}
+				        size='large'
+				        renderTabBar={renderTabBar}
+						style={movie.tabList}
+					>
+						<TabPane tab="电影" key="movie">
+							<Movie/>
+						</TabPane>
+						<TabPane tab="电视剧" key="tv">
+							<TV/>
+						</TabPane>
+						<TabPane tab="综艺" key="shows">
+							<Shows/>
+						</TabPane>
+						<TabPane tab="动漫" key="cartoon">
+							<Cartoon/>
+						</TabPane>
+						<TabPane tab="韩剧" key="koreaTv">
+							<AmericanTV/>
+						</TabPane>
+						<TabPane tab="美剧" key="americanTv">
+							<AmericanTV/>
+						</TabPane>
+						<TabPane tab="抢先" key="candid">
+							<Candid/>
+						</TabPane>
+					</Tabs>
+				</StickyContainer>
 			</div>
 		)
 	}

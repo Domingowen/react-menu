@@ -8,46 +8,29 @@ export default class MusicSearch extends React.Component {
     constructor (props) {
         super();
         this.state = {
-            listData: {},
+            listData: [],
             search: null,
             page: 0,
             totalPage: null,
             totalMusic: null,
+	        loading: true
         }
     }
     componentWillMount () {}
-    // play (item) {
-    // console.log('我要开始播放了');
-    // console.log(item);
-    // this.props.handleChange('play');
-    // console.log(this.props.handleChange);
-    // }
 	addPlayList (item) {
-        // console.log(item);
         this.props.addPlayList(item);
     }
-    // componentWillUpdate () {
-    // console.log(1111);
-    // }
     loadMore () {
+    	console.log('加载更多');
         this.setState({
-            page: this.state.page + 1
+            page: this.state.page + 1,
+	        loading: false
         }, () => {
-            let searchResult = (err, data) => {
-                console.log(data);
-                this.setState({
-                    listData: data
-                })
-            };
-            jsonp('http://search.kuwo.cn/r.s', {
-                param: `all=${this.state.search}&ft=music&client=kt&cluster=0&pn=${this.state.page}&rn=10&rformat=json&encoding=utf8&vipver=MUSIC_8.0.3.1&callback=searchResult`
-            }, searchResult)
+	        this.useQQ();
         })
     }
     useKuwo (e) {
 	    let searchResult = (err, data) => {
-	        // console.log(data);
-	        // console.log(this);
 	        this.setState({
 	            listData: data,
 	            totalMusic: data.TOTAL,
@@ -71,18 +54,24 @@ export default class MusicSearch extends React.Component {
 		    }
 	    }).then((res) => {
 		    console.log(res.data.data.data);
-		    this.setState({
-			    listData: res.data.data.data,
-		    });
+		    if (res.data.data.data) {
+			    this.setState({
+				    listData: this.state.listData.concat(res.data.data.data),
+				    loading: true
+			    });
+		    }
 	    });
     }
     handleSearch (e) {
+	    this.setState({
+		    listData: [],
+		    loading: true
+	    });
         this.setState({
             search: e
         }, () => {
 	        this.useQQ();
         });
-
     }
     render () {
         const search = {
@@ -99,7 +88,7 @@ export default class MusicSearch extends React.Component {
         return (
             <div>
                 <Search
-                    placeholder="请输入歌星或者歌曲"
+                    placeholder="请输入歌手名字或者歌曲"
                     onSearch={this.handleSearch.bind(this)}
                     enterButton
                 />
@@ -107,16 +96,12 @@ export default class MusicSearch extends React.Component {
                     initialLoad={false}
                     pageStart={0}
                     loadMore={this.loadMore.bind(this)}
-                    hasMore={!this.state.loading && this.state.hasMore}
-                    useWindow={false}
+                    hasMore={this.state.loading}
                 >
                     <List
-                    // loading={initLoading}
                     itemLayout="horizontal"
-                    // loadMore={loadMore}
                     locale={{emptyText: '暂无数据'}}
                     dataSource={this.state.listData}
-                    // style={search.list}
                     renderItem={(item, index) => (
                         <List.Item
                             actions={[<Icon type="play-circle"
@@ -131,7 +116,7 @@ export default class MusicSearch extends React.Component {
                                 title={`${item.author} | ${item.title}`}
                             />
                             <div>
-	                            <img src={item.pic} alt="pic" width={100} height={100}/>
+	                            <img src={item.pic} alt="pic" width={50} height={50}/>
                             </div>
                         </List.Item>
                     )}

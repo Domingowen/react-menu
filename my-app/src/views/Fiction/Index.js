@@ -1,41 +1,20 @@
-import React from 'react';
+import React from "react";
+import axios from "axios";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import {Sticky, StickyContainer} from "react-sticky";
 import {Tabs} from "antd";
-import List from "../Charge/List";
+import List from "../Fiction/List";
+// import TV from "../Movie/TV";
+// import Shows from "../Movie/Shows";
+// import Cartoon from "../Movie/Cartoon";
+// import AmericanTV from "../Movie/AmericanTV";
+// import Candid from "../Movie/Candid";
 const TabPane = Tabs.TabPane;
-class Charge extends React.Component {
+export default class Index extends React.Component{
 	constructor (props) {
 		super();
 		this.state = {
-			activePage: 'fee',
-			navList: [
-				{
-					name: '话费&水电费',
-					url: 'fee',
-					id: 1,
-				},
-				{
-					name: '快递',
-					url: 'express',
-					id: 1,
-				},
-				{
-					name: '签证',
-					url: 'visa',
-					id: 1,
-				},
-				{
-					name: '租车',
-					url: 'rentcar',
-					id: 1,
-				},
-				{
-					name: '家政',
-					url: 'houseservice',
-					id: 1,
-				},
-			]
+			activePage: 'list'
 		}
 	}
 	handleChange (e) {
@@ -76,17 +55,21 @@ class Charge extends React.Component {
 						renderTabBar={renderTabBar}
 						style={movie.tabList}
 					>
-						{
-							this.state.navList.map((val, index) => {
-								return <TabPane tab={val.name} key={val.url}>
-									<List/>
-								</TabPane>
-							})
-						}
+						<TabPane tab="书城" key="list">
+							<List/>
+						</TabPane>
+						<TabPane tab="阅读历史" key="history">
+							<List/>
+						</TabPane>
+						{/*<TabPane tab="电视剧" key="tv">*/}
+							{/*/!*<TV/>*!/*/}
+						{/*</TabPane>*/}
+						{/*<TabPane tab="综艺" key="shows">*/}
+							{/*/!*<Shows/>*!/*/}
+						{/*</TabPane>*/}
 					</Tabs>
 				</StickyContainer>
 			</div>
 		)
 	}
 }
-export default Charge

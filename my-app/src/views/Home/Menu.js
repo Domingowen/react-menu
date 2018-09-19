@@ -1,12 +1,13 @@
 import { Layout, Menu, Icon } from 'antd';
 import React from 'react';
 import history from '../../common/history';
-const { Header, Content, Footer, Sider } = Layout;
+import logo from '../../common/logo.jpg'
 // import {h} from 'react-router-dom';
 // const SubMenu = Menu.SubMenu;
 // const MenuItemGroup = Menu.ItemGroup;
+const { Header, Content, Footer, Sider } = Layout;
 const IconFont = Icon.createFromIconfontCN({
-	scriptUrl: '//at.alicdn.com/t/font_831918_ww2kfnpbc5r.js',
+	scriptUrl: '//at.alicdn.com/t/font_831918_i0b2l6x63zj.js',
 });
 export default class SiderMenu extends React.Component {
 	constructor (props) {
@@ -40,7 +41,7 @@ export default class SiderMenu extends React.Component {
 		return (
 			<Sider style={{ overflow: 'auto', height: '100vh', position: 'fixed', left: 0 }}>
 				<div className="logo" onClick={this.logoClick} style={{color: '#fff', fontSize: '20px', textAlign: 'center', height: '100px', lineHeight: '100px', cursor: 'pointer'}}>
-					菲哩咕生活服务平台
+					{/*<img src={logo} alt="logo" style={{width: '100%', height: '100%'}}/>*/}
 				</div>
 				<Menu theme="dark" mode="inline" selectedKeys={[history.location.pathname]} onClick={this.handleClick}>
 					<Menu.Item key="/" style={navStyle}>
@@ -70,6 +71,10 @@ export default class SiderMenu extends React.Component {
 					<Menu.Item key="/movie" style={navStyle}>
 						<IconFont type="icon-shipin"  style={{fontSize: '30px'}}/>
 						<span className="nav-text">全网视频</span>
+					</Menu.Item>
+					<Menu.Item key="/fiction" style={navStyle}>
+						<IconFont type="icon-xiaoshuo"  style={{fontSize: '30px'}}/>
+						<span className="nav-text">全网小说</span>
 					</Menu.Item>
 					<Menu.Item key="/my" style={navStyle}>
 						<IconFont type="icon-gerenzhongxin"  style={{fontSize: '30px'}}/>

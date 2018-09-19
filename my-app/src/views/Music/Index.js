@@ -6,6 +6,7 @@ import MusicList from './MusicList';
 import MusicRecommend from './MusicRecommend';
 import MusicSearch from './MusicSearch';
 import _ from 'lodash';
+import { StickyContainer, Sticky } from 'react-sticky';
 // import ReactAplayer from 'react-aplayer';
 const TabPane = Tabs.TabPane;
 export default class Index extends React.Component {
@@ -59,13 +60,28 @@ export default class Index extends React.Component {
 			lrcType: 3,
 			audio: [...this.state.playList]
 		};
+		const renderTabBar = (props, DefaultTabBar) => (
+			<Sticky bottomOffset={0}>
+				{({ style }) => (
+					<DefaultTabBar {...props} style={{ ...style, zIndex: 1, background: '#fff',height: '50px', fontSize: '20px', borderBottom: 'none' }} />
+				)}
+			</Sticky>
+		);
 		return(
 			<div style={music.container}>
-                <Tabs defaultActiveKey={this.state.activePage} activeKey={this.state.activePage} onChange={this.handleChange.bind(this)} style={music.tabList}>
-                    <TabPane tab="播放器" key="play"><MusicList playList={this.state.playList}/></TabPane>
-                    <TabPane tab="搜索歌曲" key="search"><MusicSearch handleChange={this.handleChange.bind(this)} addPlayList={this.addPlayList.bind(this)}/></TabPane>
-                    <TabPane tab="最新推荐" key="recommend"><MusicRecommend/></TabPane>
-                </Tabs>
+				<StickyContainer>
+					<Tabs defaultActiveKey={this.state.activePage}
+					      activeKey={this.state.activePage}
+					      onChange={this.handleChange.bind(this)}
+					      style={music.tabList}
+					      size='large'
+					      renderTabBar={renderTabBar}
+					>
+						<TabPane tab="播放器" key="play"><MusicList playList={this.state.playList}/></TabPane>
+						<TabPane tab="搜索歌曲" key="search"><MusicSearch handleChange={this.handleChange.bind(this)} addPlayList={this.addPlayList.bind(this)}/></TabPane>
+						<TabPane tab="最新推荐" key="recommend"><MusicRecommend/></TabPane>
+					</Tabs>
+				</StickyContainer>
 				{/*<ReactAplayer*/}
 					{/*// audio={this.state.playList}*/}
 					{/*{...props}*/}

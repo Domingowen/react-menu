@@ -3,11 +3,15 @@ import axios from "axios";
 // import axios from "axios";
 import {Tabs, List, Avatar, Button, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
-import 'aplayer/dist/APlayer.min.css';
-import skPlayer from 'skplayer';
+// import 'aplayer/dist/APlayer.min.css';
+// import skPlayer from 'skplayer';
+import APlayer from 'aplayer';
+// import Player from './test';
+
 export default class MusicList extends React.Component {
     constructor (props) {
         super();
+	    this.APlayer = React.createRef();
         this.state = {
             listData: [],
             loading: false,
@@ -16,72 +20,88 @@ export default class MusicList extends React.Component {
     }
     player = null;
     componentWillMount () {
-        if (localStorage.getItem('musicList')) {
-            this.setState({
-                listData: JSON.parse(localStorage.getItem('musicList'))
-            });
-	        let playList =JSON.parse(localStorage.getItem('musicList')).map((val, index) => {
-		        val.name = val.title;
-		        val.artist = val.author;
-		        val.cover = val.pic;
-		        val.src = val.url;
-		        // console.log(val);
-		        return val;
-	        });
-	        this.setState({
-		        playList: playList
-	        })
-		        // if (this.state.playList.length > 0) {
-
-		        // this.player = new APlayer({
-			     //    container: document.getElementById('player'),
-			     //    mini: false,
-			     //    autoplay: false,
-			     //    theme: '#FADFA3',
-			     //    loop: 'all',
-			     //    order: 'random',
-			     //    preload: 'auto',
-			     //    volume: 0.7,
-			     //    mutex: true,
-			     //    listFolded: false,
-			     //    listMaxHeight: 90,
-			     //    lrcType: 3,
-			     //    music: this.state.playList
-		        // });
-		        // this.player.destroy();
-		        // this.player.list.add(this.state.playList)
-		        // }
-        }
-    }
-    // shouldComponentUpdate (nextProps, nextState) {
-	    // if (nextProps !== this.props.playList) {
-		 //    this.setState({
-			//     listData: nextProps
-		 //    });
-	    // }
-	    // return true;
-    // }
-	componentDidMount () {
-    	if (this.state.playList) {
-		    // console.log(this.state.playList);
-		    this.player = new skPlayer({
-			    autoplay: false,
-			    //可选项,自动播放,默认为false,true/false
-			    listshow: true,
-			    //可选项,列表显示,默认为true,true/false
-			    mode: 'listloop',
-			    //可选项,循环模式,默认为'listloop'
-			    //'listloop',列表循环
-			    //'singleloop',单曲循环
-			    music: {
-				    type: 'file',
-				    source: this.state.playList
-			    }
+	    let playList = null;
+	    if (localStorage.getItem('musicList')) {
+		    playList =JSON.parse(localStorage.getItem('musicList')).map((val, index) => {
+			    val.name = val.title;
+			    val.artist = val.author;
+			    val.cover = val.pic;
+			    val.src = val.url;
+			    // console.log(val);
+			    return val;
+		    });
+		    this.setState({
+			    listData: playList
 		    })
 	    }
+    }
+    componentDidUpdate (nextProps, nextState) {
+    	console.log(nextState);
+	    // this.player.list.add(nextState.listData)
+    }
+	componentDidMount () {
+    	if(this.state.listData.length > 0) {
+		    this.initPlayer();
+	    }
 	}
+	// shouldComponentUpdate (nextProps, nextState) {
+    	// console.log(nextState)
+	// }
+	// componentWillUpdate (nextProps, nextState) {
+    	// console.log(nextProps);
+    	// console.log(nextState);
+	// }
+	// componentDidUpdate (prevProps, prevState) {
+    	// console.log(prevProps);
+    	// console.log(prevState);
+	// }
 	componentWillUnmount () {
-		this.player.destroy()
+    	// if (this.player) {
+		    // this.player.destroy();
+	    // }
+	}
+	// componentWillReceiveProps (nextProps) {
+    	// console.log(nextState);
+	    // if (nextProps.playList){
+			// this.setState({
+			// 	listData: nextProps.playList
+			// });
+	    // }
+	// }
+	initPlayer () {
+    	if (this.player){
+    		console.log(this.player);
+	    }
+    	this.player = new APlayer({
+		    container: document.getElementById('APlayer'),
+		    mini: false,
+		    autoplay: false,
+		    theme: '#FADFA3',
+		    loop: 'all',
+		    order: 'random',
+		    preload: 'none',
+		    volume: 0.7,
+		    mutex: true,
+		    listFolded: false,
+		    listMaxHeight: 90,
+		    lrcType: 3,
+		    audio: this.state.listData,
+	    });
+		// this.player = new skPlayer({
+		// 	autoplay: true,
+		// 	//可选项,自动播放,默认为false,true/false
+		// 	listshow: true,
+		// 	//可选项,列表显示,默认为true,true/false
+		// 	mode: 'listloop',
+		// 	//可选项,循环模式,默认为'listloop'
+		// 	//'listloop',列表循环
+		// 	//'singleloop',单曲循环
+		// 	music: {
+		// 		type: 'file',
+		// 		source: this.state.listData
+		// 	}
+		// })
+
 	}
     loadMore () {}
     deleteSong (id) {
@@ -103,7 +123,7 @@ export default class MusicList extends React.Component {
     	const playList = {
     		player: {
     			width: '99%',
-			    height: '90%',
+			    // height: '90%',
 			    margin: '0 auto'
 		    }
 	    };
@@ -136,7 +156,8 @@ export default class MusicList extends React.Component {
                         {/*)}*/}
                     {/*/>*/}
                 {/*</InfiniteScroll>*/}
-	            <div id="skPlayer" style={playList.player}></div>
+                <div id="APlayer" style={playList.player} ref={this.APlayer}></div>
+                {/*<Player></Player>*/}
             </div>
         )
     }

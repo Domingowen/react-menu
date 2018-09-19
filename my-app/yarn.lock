@@ -6058,7 +6058,7 @@ querystringify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
 
-raf@3.4.0, raf@^3.4.0:
+raf@3.4.0, raf@^3.3.0, raf@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
   dependencies:
@@ -6658,6 +6658,13 @@ react-slick@~0.23.1:
     json2mq "^0.2.0"
     lodash.debounce "^4.0.8"
     resize-observer-polyfill "^1.5.0"
+
+react-sticky@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/react-sticky/-/react-sticky-6.0.3.tgz#7a18b643e1863da113d7f7036118d2a75d9ecde4"
+  dependencies:
+    prop-types "^15.5.8"
+    raf "^3.3.0"
 
 react-transition-group@2:
   version "2.4.0"
