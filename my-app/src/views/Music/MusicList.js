@@ -1,12 +1,12 @@
 import React from 'react';
 import axios from "axios";
-// import axios from "axios";
 import {Tabs, List, Avatar, Button, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 // import 'aplayer/dist/APlayer.min.css';
-// import skPlayer from 'skplayer';
-import APlayer from 'aplayer';
+import skPlayer from 'skplayer';
+// import APlayer from 'aplayer';
 // import Player from './test';
+import ReactAPlayer from 'react-aplayer';
 
 export default class MusicList extends React.Component {
     constructor (props) {
@@ -42,8 +42,14 @@ export default class MusicList extends React.Component {
 	componentDidMount () {
     	if(this.state.listData.length > 0) {
 		    this.initPlayer();
+		    // this.player.list.add(this.state.listData);
 	    }
 	}
+	onInit = ap => {
+		this.player = ap;
+		console.log(this.player);
+	};
+
 	// shouldComponentUpdate (nextProps, nextState) {
     	// console.log(nextState)
 	// }
@@ -56,9 +62,9 @@ export default class MusicList extends React.Component {
     	// console.log(prevState);
 	// }
 	componentWillUnmount () {
-    	// if (this.player) {
-		    // this.player.destroy();
-	    // }
+    	if (this.player) {
+		    this.player.destroy();
+	    }
 	}
 	// componentWillReceiveProps (nextProps) {
     	// console.log(nextState);
@@ -69,38 +75,38 @@ export default class MusicList extends React.Component {
 	    // }
 	// }
 	initPlayer () {
-    	if (this.player){
-    		console.log(this.player);
-	    }
-    	this.player = new APlayer({
-		    container: document.getElementById('APlayer'),
-		    mini: false,
-		    autoplay: false,
-		    theme: '#FADFA3',
-		    loop: 'all',
-		    order: 'random',
-		    preload: 'none',
-		    volume: 0.7,
-		    mutex: true,
-		    listFolded: false,
-		    listMaxHeight: 90,
-		    lrcType: 3,
-		    audio: this.state.listData,
-	    });
-		// this.player = new skPlayer({
-		// 	autoplay: true,
-		// 	//可选项,自动播放,默认为false,true/false
-		// 	listshow: true,
-		// 	//可选项,列表显示,默认为true,true/false
-		// 	mode: 'listloop',
-		// 	//可选项,循环模式,默认为'listloop'
-		// 	//'listloop',列表循环
-		// 	//'singleloop',单曲循环
-		// 	music: {
-		// 		type: 'file',
-		// 		source: this.state.listData
-		// 	}
-		// })
+    	// if (this.player){
+    	// 	console.log(this.player);
+	    // }
+    	// this.player = new APlayer({
+		//     container: document.getElementById('APlayer'),
+		//     mini: false,
+		//     autoplay: false,
+		//     theme: '#FADFA3',
+		//     loop: 'all',
+		//     order: 'random',
+		//     preload: 'none',
+		//     volume: 0.7,
+		//     mutex: true,
+		//     listFolded: false,
+		//     listMaxHeight: 90,
+		//     lrcType: 3,
+		//     audio: this.state.listData,
+	    // });
+		this.player = new skPlayer({
+			autoplay: true,
+			//可选项,自动播放,默认为false,true/false
+			listshow: true,
+			//可选项,列表显示,默认为true,true/false
+			mode: 'listloop',
+			//可选项,循环模式,默认为'listloop'
+			//'listloop',列表循环
+			//'singleloop',单曲循环
+			music: {
+				type: 'file',
+				source: this.state.listData
+			}
+		})
 
 	}
     loadMore () {}
@@ -126,6 +132,11 @@ export default class MusicList extends React.Component {
 			    // height: '90%',
 			    margin: '0 auto'
 		    }
+	    };
+    	const audioPlay = {
+		    preload: 'none',
+		    autoplay: false,
+		    mutex: true,
 	    };
         return (
             <div style={{height: '80vh'}}>
@@ -156,7 +167,11 @@ export default class MusicList extends React.Component {
                         {/*)}*/}
                     {/*/>*/}
                 {/*</InfiniteScroll>*/}
-                <div id="APlayer" style={playList.player} ref={this.APlayer}></div>
+                <div id="skPlayer" style={playList.player} ref={this.APlayer}></div>
+                {/*<ReactAPlayer*/}
+	                {/*onInit={this.onInit}*/}
+	                {/*{...audioPlay}*/}
+                {/*/>*/}
                 {/*<Player></Player>*/}
             </div>
         )
