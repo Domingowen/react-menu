@@ -16,30 +16,107 @@ export default class Index extends React.Component {
 	constructor (props) {
 		super();
 		this.state = {
-			activePage: 'movie',
+			activePage: 'tv',
+			cid: 3,
+			tid: 3,
 			listData: [],
+			navList: [
+				{
+					name: '电视剧',
+					id: 'tv',
+					tid: 3,
+					cid: 3,
+				},
+				{
+					name: '电影',
+					id: 'movie',
+					tid: 22,
+					cid: 4,
+				},
+				{
+					name: '综艺',
+					id: 'shows',
+					tid: 413,
+					cid: 5,
+				},
+				{
+					name: '韩剧',
+					id: 'koreaTv',
+					tid: 6,
+					cid: 3,
+				},
+				{
+					name: '美剧',
+					id: 'americanTv',
+					tid: 8,
+					cid: 3,
+				}
+			],
+			start: 0,
+			loading: true
 		}
 	}
 	handleChange (e) {
-		console.log(e);
-		this.setState({
-			activePage: e
-		})
+		let cid = null;
+		let tid = null;
+		this.state.navList.forEach((val, index) => {
+			if (val.id === e) {
+				this.setState({
+					activePage: e,
+					cid: val.cid,
+					tid: val.tid,
+				}, () => {
+					this.getData();
+				});
+			}
+		});
+
 	}
 	componentWillMount () {
 		this.getData();
 	}
+	getMore () {
+		this.setState({
+			loading: false,
+			start: this.state.start + 20,
+		}, () => {
+			axios({
+				method: 'post',
+				url: 'http://192.168.99.54:20200/movie/list',
+				data: {
+					cid: this.state.cid,
+					tid: this.state.tid,
+					start: this.state.start,
+				}
+			}).then((res) => {
+				let data = res.data.data.data.data.datas;
+				this.setState({
+					listData: this.state.listData.concat(data),
+					loading: true
+				})
+			})
+		});
+	}
 	getData () {
-		axios({
-			method: 'post',
-			url: 'http://192.168.99.54:20200/movie/list',
-			data: {}
-		}).then((res) => {
-			console.log(res);
-			// this.setState({
-				// listData: res.data.data.list
-			// })
-		})
+		this.setState({
+			listData: [],
+			start: 0,
+		}, () => {
+			axios({
+				method: 'post',
+				url: 'http://192.168.99.54:20200/movie/list',
+				data: {
+					cid: this.state.cid,
+					tid: this.state.tid,
+					start: this.state.start
+				}
+			}).then((res) => {
+				let data = res.data.data.data.data.datas;
+				this.setState({
+					listData: data
+				})
+			})
+		});
 	}
 	render () {
 		const movie = {
@@ -74,28 +151,17 @@ export default class Index extends React.Component {
 				        size='large'
 				        renderTabBar={renderTabBar}
 						style={movie.tabList}
+						// onTabClick={this.handleChangeChannel.bind(this)}
 					>
-						<TabPane tab="电影" key="movie">
-							<Movie list={this.state.listData}/>
-						</TabPane>
-						<TabPane tab="电视剧" key="tv">
-							<TV/>
-						</TabPane>
-						<TabPane tab="综艺" key="shows">
-							<Shows/>
-						</TabPane>
-						<TabPane tab="动漫" key="cartoon">
-							<Cartoon/>
-						</TabPane>
-						<TabPane tab="韩剧" key="koreaTv">
-							<AmericanTV/>
-						</TabPane>
-						<TabPane tab="美剧" key="americanTv">
-							<AmericanTV/>
-						</TabPane>
-						<TabPane tab="抢先" key="candid">
-							<Candid/>
-						</TabPane>
+						{this.state.navList.map((val, index) =>
+							<TabPane tab={val.name} key={val.id}>
+								<Movie
+									list={this.state.listData}
+									getMore={this.getMore.bind(this)}
+									loading={this.state.loading}
+								/>
+							</TabPane>
+						)}
 						<TabPane tab="播放器" key="player">
 							<VideoPlayer/>
 						</TabPane>
