@@ -10,12 +10,14 @@ import Shows from "../Movie/Shows";
 import AmericanTV from "../Movie/AmericanTV";
 import Candid from "../Movie/Candid";
 import Cartoon from "../Movie/Cartoon";
+import VideoPlayer from "../Movie/VideoPlayer";
 const TabPane = Tabs.TabPane;
 export default class Index extends React.Component {
 	constructor (props) {
 		super();
 		this.state = {
-			activePage: 'movie'
+			activePage: 'movie',
+			listData: [],
 		}
 	}
 	handleChange (e) {
@@ -30,10 +32,13 @@ export default class Index extends React.Component {
 	getData () {
 		axios({
 			method: 'post',
-			url: 'http://192.168.99.54:20200/movie/list',
+			url: 'http://192.168.254.100:20200/movie/list',
 			data: {}
 		}).then((res) => {
-			console.log();
+			console.log(res);
+			// this.setState({
+				// listData: res.data.data.list
+			// })
 		})
 	}
 	render () {
@@ -43,7 +48,7 @@ export default class Index extends React.Component {
 				// display: 'flex',
 				// justifyContent: 'center',
 				// alignItems: 'center',
-				height: '90vh',
+				// height: '90vh',
 				// fontSize: '26px'
 			},
 			tabList: {
@@ -71,7 +76,7 @@ export default class Index extends React.Component {
 						style={movie.tabList}
 					>
 						<TabPane tab="电影" key="movie">
-							<Movie/>
+							<Movie list={this.state.listData}/>
 						</TabPane>
 						<TabPane tab="电视剧" key="tv">
 							<TV/>
@@ -90,6 +95,9 @@ export default class Index extends React.Component {
 						</TabPane>
 						<TabPane tab="抢先" key="candid">
 							<Candid/>
+						</TabPane>
+						<TabPane tab="播放器" key="player">
+							<VideoPlayer/>
 						</TabPane>
 					</Tabs>
 				</StickyContainer>

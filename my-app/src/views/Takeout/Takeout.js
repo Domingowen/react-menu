@@ -22,7 +22,7 @@ class Takeout extends React.Component {
 		if (val) {
 			axios({
 				method: 'post',
-				url: 'http://192.168.99.54:20200/searchMenu',
+				url: 'http://192.168.254.100:20200/searchMenu',
 				data: {
 					search: val,
 					page: 1
@@ -36,7 +36,7 @@ class Takeout extends React.Component {
 		} else {
 			axios({
 				method: 'post',
-				url: 'http://192.168.99.54:20200/searchMenu',
+				url: 'http://192.168.254.100:20200/searchMenu',
 				data: {
 					page: 1
 				}
@@ -50,7 +50,7 @@ class Takeout extends React.Component {
 	confirmSelect () {
 		axios({
 			method: 'post',
-			url: 'http://192.168.99.54:20200/searchFood',
+			url: 'http://192.168.254.100:20200/searchFood',
 			data: {
 				page: 1,
 				classify: this.state.classify
