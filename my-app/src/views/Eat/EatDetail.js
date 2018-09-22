@@ -17,7 +17,7 @@ export default class EatDetail extends React.Component {
 		console.log(history);
 		axios({
 			method: 'post',
-            url: 'http://192.168.99.54:20200/flw/detail',
+            url: 'http://192.168.254.100:20200/flw/detail',
 			data: {
 				id: history.location.state.foodId,
 				boardId: 36

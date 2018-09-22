@@ -45,7 +45,7 @@ export default class MusicSearch extends React.Component {
     useQQ () {
 	    axios({
 		    method: 'post',
-		    url: 'http://192.168.99.54:20200/music/search/qq',
+		    url: 'http://192.168.254.100:20200/music/search/qq',
 		    data: {
 			    search: this.state.search,
 			    page: this.state.page + 1,
@@ -100,7 +100,7 @@ export default class MusicSearch extends React.Component {
                 >
                     <List
                     itemLayout="horizontal"
-                    locale={{emptyText: '暂无数据'}}
+                    locale={{emptyText: '你想听的都有哦！'}}
                     dataSource={this.state.listData}
                     renderItem={(item, index) => (
                         <List.Item

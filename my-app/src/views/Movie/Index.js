@@ -1,25 +1,18 @@
 import React from 'react';
 import axios from "axios";
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
-import _ from 'lodash';
-import { Tabs } from 'antd';
-import { StickyContainer, Sticky } from 'react-sticky';
-import TV from "./TV";
-import Movie from "../Movie/Movie";
-import Shows from "../Movie/Shows";
-import AmericanTV from "../Movie/AmericanTV";
-import Candid from "../Movie/Candid";
-import Cartoon from "../Movie/Cartoon";
-import VideoPlayer from "../Movie/VideoPlayer";
-const TabPane = Tabs.TabPane;
+import Lists from "../Movie/Lists";
+import Detail from '../Movie/Detail';
 export default class Index extends React.Component {
 	constructor (props) {
 		super();
 		this.state = {
-			activePage: 'tv',
+			activeKey: 'tv',
 			cid: 3,
 			tid: 3,
 			listData: [],
+			start: 0,
+			loading: true,
 			navList: [
 				{
 					name: '电视剧',
@@ -51,9 +44,7 @@ export default class Index extends React.Component {
 					tid: 8,
 					cid: 3,
 				}
-			],
-			start: 0,
-			loading: true
+			]
 		}
 	}
 	handleChange (e) {
@@ -61,16 +52,16 @@ export default class Index extends React.Component {
 		let tid = null;
 		this.state.navList.forEach((val, index) => {
 			if (val.id === e) {
-				this.setState({
-					activePage: e,
-					cid: val.cid,
-					tid: val.tid,
-				}, () => {
-					this.getData();
-				});
+				cid = val.cid;
+				tid = val.tid;
+				this.getData(cid, tid);
 			}
 		});
-
+		this.setState({
+			activeKey: e,
+			cid: cid,
+			tid: tid,
+		});
 	}
 	componentWillMount () {
 		this.getData();
@@ -97,7 +88,7 @@ export default class Index extends React.Component {
 			})
 		});
 	}
-	getData () {
+	getData (cid, tid) {
 		this.setState({
 			listData: [],
 			start: 0,
@@ -106,8 +97,8 @@ export default class Index extends React.Component {
 				method: 'post',
 				url: 'http://192.168.99.54:20200/movie/list',
 				data: {
-					cid: this.state.cid,
-					tid: this.state.tid,
+					cid: cid,
+					tid: tid,
 					start: this.state.start
 				}
 			}).then((res) => {
@@ -122,51 +113,24 @@ export default class Index extends React.Component {
 		const movie = {
 			container: {
 				backgroundColor: '#fff',
-				// display: 'flex',
-				// justifyContent: 'center',
-				// alignItems: 'center',
-				// height: '90vh',
-				// fontSize: '26px'
 			},
 			tabList: {
 				paddingLeft: '10px',
 				paddingRight: '10px',
-				// borderBottom: 'none',
 			}
 		};
-		const renderTabBar = (props, DefaultTabBar) => (
-			<Sticky bottomOffset={0}>
-				{({ style }) => (
-					<DefaultTabBar {...props} style={{ ...style, zIndex: 1, background: '#fff',height: '50px', fontSize: '20px', borderBottom: 'none' }} />
-				)}
-			</Sticky>
-		);
 		return(
 			<div style={movie.container}>
-				<StickyContainer>
-					<Tabs
-						defaultActiveKey={this.state.activePage}
-				        activeKey={this.state.activePage}
-				        onChange={this.handleChange.bind(this)}
-				        size='large'
-				        renderTabBar={renderTabBar}
-						style={movie.tabList}
-						// onTabClick={this.handleChangeChannel.bind(this)}
-					>
-						{this.state.navList.map((val, index) =>
-							<TabPane tab={val.name} key={val.id}>
-								<Movie
-									list={this.state.listData}
-									getMore={this.getMore.bind(this)}
-									loading={this.state.loading}
-								/>
-							</TabPane>
-						)}
-						<TabPane tab="播放器" key="player">
-							<VideoPlayer/>
-						</TabPane>
-					</Tabs>
-				</StickyContainer>
+				<Route path='/movie' exact component={() => (
+					<Lists list={this.state.listData}
+					       getMore={this.getMore.bind(this)}
+					       loading={this.state.loading}
+					       handleChange={this.handleChange.bind(this)}
+					       activeKey={this.state.activeKey}
+					       navList={this.state.navList}
+					/>)}
+				/>
+				<Route path='/movie/detail' component={Detail}/>
 			</div>
 		)
 	}

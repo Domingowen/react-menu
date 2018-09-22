@@ -12,6 +12,9 @@ const IconFont = Icon.createFromIconfontCN({
 export default class SiderMenu extends React.Component {
 	constructor (props) {
 		super();
+		this.state = {
+			key: '/'
+		}
 	}
 	handleClick = (e) => {
 		// console.log(this.props);
@@ -19,12 +22,25 @@ export default class SiderMenu extends React.Component {
 		// console.log(this.props);
 		// window.history.push(e.key);
 		history.push(e.key);
+		this.setState({
+			key: e.key
+		})
 	};
 	logoClick = (e) => {
 		history.push('/');
+		this.setState({
+			key: '/'
+		})
 	};
 	componentWillMount () {
 		console.log(history);
+		this.setState({
+			key: history.location.pathname
+		})
+		// history.listen((location, action) => {
+		// console.log(location);
+		// console.log(action);
+		// })
 		// console.log(this.props);
 	}
 
@@ -43,7 +59,7 @@ export default class SiderMenu extends React.Component {
 				<div className="logo" onClick={this.logoClick} style={{color: '#fff', fontSize: '20px', textAlign: 'center', height: '100px', lineHeight: '100px', cursor: 'pointer'}}>
 					{/*<img src={logo} alt="logo" style={{width: '100%', height: '100%'}}/>*/}
 				</div>
-				<Menu theme="dark" mode="inline" selectedKeys={[history.location.pathname]} onClick={this.handleClick}>
+				<Menu theme="dark" mode="inline" selectedKeys={[this.state.key]} onClick={this.handleClick}>
 					<Menu.Item key="/" style={navStyle}>
 						<IconFont type="icon-shouye" style={{fontSize: '30px'}}/>
 						<span className="nav-text">主页</span>
