@@ -77,7 +77,7 @@ export default class Index extends React.Component {
 					      size='large'
 					      renderTabBar={renderTabBar}
 					>
-						<TabPane tab="播放器" key="play"><MusicList playList={this.state.playList}/></TabPane>
+						<TabPane tab="播放列表" key="play"><MusicList playList={this.state.playList}/></TabPane>
 						<TabPane tab="搜索歌曲" key="search"><MusicSearch handleChange={this.handleChange.bind(this)} addPlayList={this.addPlayList.bind(this)}/></TabPane>
 						<TabPane tab="最新推荐" key="recommend"><MusicRecommend/></TabPane>
 					</Tabs>
