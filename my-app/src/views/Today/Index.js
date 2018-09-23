@@ -15,8 +15,12 @@ class Today extends React.Component {
 				},
 				{
 					icon: 'icon-taiyang-copy',
-					title: 'Hi 中午好'
+					title: 'Hi 上午好'
 				},
+                {
+                    icon: 'icon-taiyang-copy',
+                    title: 'Hi 中午好'
+                },
 				{
 					icon: 'icon-tianqi-duoyun',
 					title: 'Hi 下午好'
@@ -37,17 +41,21 @@ class Today extends React.Component {
 				this.setState({
 					currentIndex: 0
 				})
-			} else if (this.state.currentHours >= 9 && this.state.currentHours < 12) {
+			} else if (this.state.currentHours >= 9 && this.state.currentHours < 11) {
 				this.setState({
 					currentIndex: 1
 				})
-			} else if (this.state.currentHours >= 12 && this.state.currentHours < 18) {
+			} else if (this.state.currentHours >= 11 && this.state.currentHours < 12) {
+                this.setState({
+                    currentIndex: 2
+                })
+            } else if (this.state.currentHours >= 12 && this.state.currentHours < 18) {
 				this.setState({
-					currentIndex: 2
+					currentIndex: 3
 				})
 			} else if (this.state.currentHours >= 18 && this.state.currentHours < 24) {
 				this.setState({
-					currentIndex: 3
+					currentIndex: 4
 				})
 			}
 		})

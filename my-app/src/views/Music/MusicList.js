@@ -2,22 +2,17 @@ import React from 'react';
 import axios from "axios";
 import {Tabs, List, Avatar, Button, Skeleton } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
-// import 'aplayer/dist/APlayer.min.css';
+import 'aplayer/dist/APlayer.min.css';
 // import skPlayer from 'skplayer';
-// import APlayer from 'aplayer';
+import APlayer from 'aplayer';
 // import Player from './test';
 // import ReactAPlayer from 'react-aplayer';
 
 export default class MusicList extends React.Component {
     constructor (props) {
         super();
-	    // this.APlayer = React.createRef();
         this.state = {
-            listData: [
-				{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}
-			],
-        //     loading: false,
-        //     page: 0
+            listData: [],
         }
     }
     handlePlay () {
@@ -26,6 +21,36 @@ export default class MusicList extends React.Component {
 	handleDelete () {
 
 	}
+	getLocalStore () {
+        let dataList = JSON.parse(localStorage.getItem('musicList'));
+        // console.log(dataList);
+        if(dataList) {
+            let arrList = dataList.map(val => {
+                val.name = val.title;
+                val.artist = val.author;
+                val.cover = val.pic;
+                return val;
+            });
+            // this.player = new APlayer({
+            //     container: document.getElementById('player'),
+            //     audio: arrList,
+            // });
+            // console.log(arrList);
+            // this.player.destroy();
+            this.setState({
+                listData: arrList
+            })
+            //     this.player = new APlayer({
+            //         container: document.getElementById('player'),
+            //         audio: this.state.listData,
+            //     })
+            // });
+        }
+    }
+	componentDidMount () {
+       this.getLocalStore();
+    }
+	player = null;
     render () {
     	return (
     		<div>
@@ -41,14 +66,15 @@ export default class MusicList extends React.Component {
                             {/*<Skeleton avatar title={false} active>*/}
                                 <List.Item.Meta
                                     // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-									title={<div><span>歌手：</span><span>周杰伦</span></div>}
-									description={<div><span>歌曲名：</span><span>晴天</span></div>}
+									title={<div><span>歌手：</span><span>{item.author}</span></div>}
+									description={<div><span>歌曲名：</span><span>{item.title}</span></div>}
                                 />
                                 {/*<div>晴天</div>*/}
                             {/*</Skeleton>*/}
                         </List.Item>
                     )}
 				/>
+				{/*<div id="player"></div>*/}
 			</div>
 		)
 	}

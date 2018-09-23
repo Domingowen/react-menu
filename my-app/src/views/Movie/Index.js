@@ -52,16 +52,16 @@ export default class Index extends React.Component {
 		let tid = null;
 		this.state.navList.forEach((val, index) => {
 			if (val.id === e) {
-				cid = val.cid;
-				tid = val.tid;
-				this.getData(cid, tid);
+                this.setState({
+                    activeKey: e,
+                    cid: val.cid,
+                    tid: val.tid,
+                }, () => {
+                    this.getData();
+				});
 			}
 		});
-		this.setState({
-			activeKey: e,
-			cid: cid,
-			tid: tid,
-		});
+
 	}
 	componentWillMount () {
 		this.getData();
@@ -73,7 +73,7 @@ export default class Index extends React.Component {
 		}, () => {
 			axios({
 				method: 'post',
-				url: 'http://192.168.99.54:20200/movie/list',
+				url: 'http://192.168.254.100:20200/movie/list',
 				data: {
 					cid: this.state.cid,
 					tid: this.state.tid,
@@ -88,17 +88,17 @@ export default class Index extends React.Component {
 			})
 		});
 	}
-	getData (cid, tid) {
+	getData () {
 		this.setState({
 			listData: [],
 			start: 0,
 		}, () => {
 			axios({
 				method: 'post',
-				url: 'http://192.168.99.54:20200/movie/list',
+				url: 'http://192.168.254.100:20200/movie/list',
 				data: {
-					cid: cid,
-					tid: tid,
+					cid: this.state.cid,
+					tid: this.state.tid,
 					start: this.state.start
 				}
 			}).then((res) => {

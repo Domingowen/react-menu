@@ -33,17 +33,16 @@ export default class SiderMenu extends React.Component {
 		})
 	};
 	componentWillMount () {
-		console.log(history);
-		this.setState({
-			key: history.location.pathname
-		})
-		// history.listen((location, action) => {
-		// console.log(location);
-		// console.log(action);
-		// })
+		// console.log(history);
+		history.listen((location, action) => {
+			// console.log(location);
+			// console.log(action);
+            this.setState({
+                key: location.pathname
+            });
+		});
 		// console.log(this.props);
 	}
-
 	render() {
 		// console.log(this.props);
 		// console.log();
