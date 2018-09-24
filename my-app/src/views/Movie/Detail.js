@@ -14,6 +14,7 @@ export default class Detail extends React.Component {
 		this.state = {
 			pageData: {},
 			actorList: [],
+			episodeList: [],
 			iframeUrl: null,
 		};
 	}
@@ -23,56 +24,64 @@ export default class Detail extends React.Component {
 		// new Hls();
 	}
 	componentDidMount () {
-		if(this.state.iframeUrl) {
-
-		}
+		if(this.state.iframeUrl) {}
+	}
+	playVideo (item) {
+		console.log(item);
+		this.setState({
+			iframeUrl: item
+		}, () => {
+			document.getElementById('videoUrl').setAttribute('src', this.state.iframeUrl);
+			console.log(this.player);
+			// document.getElementById('videoUrl').contentWindow.location.reload();
+			// this.player.location.reload()
+		})
 	}
 	player = null;
 	playIframe = null;
 	getDetailData () {
 		let stateParam = history.location.state;
+		// console.log(stateParam);
 		axios({
-			url: 'http://192.168.254.100:20200/movie/detail',
+			url: 'http://192.168.99.54:20200/movie/detail',
 			method: 'post',
 			data: {
-				id: stateParam.movieId.id,
-				cat: stateParam.movieId.cat
+				ids: stateParam.movieId.vod_id
+				// wd: stateParam.movieId.title
+				// id: stateParam.movieId.id,
+				// cat: stateParam.movieId.cat
 			}
 		}).then((res) => {
-			console.log(res);
-			let data = res.data.data.data.data;
+			// console.log(res);
+			let data = res.data.data.list[0];
+			let actorList = res.data.data.list[0].vod_actor.split(',');
+			let episodeList = res.data.data.list[0].vod_play_url.split('#');
+			let firstItem = episodeList[0].split('$')[1];
+			console.log(episodeList);
 			this.setState({
 				pageData: data,
-				actorList: data.actor,
-                iframeUrl: 'http://sina.jingpinxiazai.com/20180918/udpwjY6Z/index.m3u8'
+				actorList: actorList,
+				episodeList: episodeList,
+				iframeUrl: firstItem
 			}, () => {
-                this.player = new DPlayer(
-                    {
-                        container: document.getElementById('player'),
-                        autoplay: false,
-                        video: {
-                            url: this.state.iframeUrl,
-                            type: 'customHls',
-                            customType: {
-                                'customHls': function (video, player) {
-                                    const hls = new Hls();
-                                    hls.loadSource(video.src);
-                                    hls.attachMedia(video);
-                                }
-                            }
-                        },
-                    }
-                )
-			})
+				document.getElementById('videoUrl').setAttribute('src', this.state.iframeUrl);
+			});
+			console.log(this.state);
 		});
 
 		// this.playIframe.setAttribute('src', 'http://api.bbbbbb.me/jx/?url=http://v.qq.com/x/cover/1wbx6hb4d3icse8/z0027hcc6iu.html?ptag=2345.tv');
 		// this.playIframe.src= ''
 	}
+	componentWillUnmount () {
+		// if (this.player) {
+		// 	this.player.destroy();
+		// }
+	}
 	render () {
-		// const actorList = this.state.pageData.actor.map(val => {return <span>{val}</span>});
-		// const actorList = this.state.pageData.actor.map(val => <span>{val}</span>);
 		const detail = {
+			container: {
+				padding: '0 5px'
+			},
 			title: {
 				fontSize: '30px',
 				height: '60px',
@@ -84,42 +93,58 @@ export default class Detail extends React.Component {
 			},
 			header: {
 				display: 'flex',
-				justifyContent: 'spaceBetween',
+				// justifyContent: 'spaceBetween',
 				width: '100%',
-                marginBottom: '10px',
+				marginBottom: '10px',
 			},
 			header_left: {
-				flex: 1,
+				// flex: 1,
 			},
-            header_img: {
+			header_img: {
 				width: '200px',
 				// height: '300px'
 			},
 			header_right: {
+				flex: 1,
+				marginLeft: '20px',
 			},
-            header_word: {
+			header_word: {
 				marginBottom: '20px',
-				marginLeft: '20px'
 			},
-            header_gather: {
-
+			header_gather: {
+				display: 'flex',
+				flexWrap: 'wrap'
 			},
-            header_gather_list: {
-				width: '20px',
-				height: '20px',
+			header_gather_list: {
+				// width: '20px',
+				// height: '20px',
 				border: '1px solid #ccc',
-				marginLeft: '20px'
+				marginLeft: '5px',
+				marginBottom: '5px',
+				padding: '10px',
+				cursor: 'pointer'
+				// marginLeft: '20px'
 			},
 			player: {
-
+				margin: '0 auto',
+				width: '100%',
+				height: '600px'
+			},
+			iframe: {
+				width: '100%',
+				height: '100%'
 			}
 		};
+		// const actorList = this.state.pageData.actor.map(val => {return <span>{val}</span>});
+		// const actorList = this.state.pageData.actorList.map(val => <span>{val}</span>);
+		const episodeList = this.state.episodeList.map(val => <span key={val} style={detail.header_gather_list} onClick={this.playVideo.bind(this, val.split('$')[1])}>{val.split('$')[0]}</span>);
+
 		return (
-			<div>
-				<div style={detail.title}>{this.state.pageData.title}</div>
+			<div style={detail.container}>
+				<div style={detail.title}>{this.state.pageData.vod_name}</div>
                 <div style={detail.header}>
 					<div style={detail.header_left}>
-                        <img style={detail.header_img} src={this.state.pageData.cover} alt=""/>
+                        <img style={detail.header_img} src={this.state.pageData.vod_pic} alt=""/>
 					</div>
 					<div style={detail.header_right}>
 						{/*<div>*/}
@@ -127,19 +152,22 @@ export default class Detail extends React.Component {
 						{/*</div>*/}
 						<div style={detail.header_word}>
                             {this.state.actorList.map(val => <span key={val}>{val} /</span>)}
+							{/*{actorList}*/}
 						</div>
 						<div style={detail.header_word}>
-                            {this.state.pageData.word}
+                            {this.state.pageData.vod_content}
 						</div>
                         <div style={detail.header_word}>
-                            {this.state.pageData.total ? `更新至${this.state.pageData.upinfo} / 全集${this.state.pageData.total}` : ''}
+                            {this.state.pageData.vod_remarks ? `更新至${this.state.pageData.vod_remarks}`: ''}
                         </div>
 						<div style={detail.header_gather}>
-							<span style={detail.header_gather_list}></span>
+							{episodeList}
 						</div>
 					</div>
 				</div>
-                <div id="player"></div>
+				<div id="player" style={detail.player}>
+					<iframe src={this.state.iframeUrl} style={detail.iframe} ref={video => this.player = video} id='videoUrl'></iframe>
+				</div>
 			</div>
 		)
 	}
