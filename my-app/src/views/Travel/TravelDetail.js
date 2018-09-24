@@ -16,7 +16,7 @@ export default class TravelDetail extends React.Component {
     componentWillMount () {
 	    axios({
 		    method: 'post',
-		    url: 'http://192.168.254.100:20200/flw/detail',
+		    url: 'http://192.168.99.54:20200/flw/detail',
 		    data: {
 			    id: history.location.state.travelId,
 			    boardId: 37

@@ -71,20 +71,23 @@ export default class Lists extends React.PureComponent {
 												<Card
 													onClick={this.handleDetail.bind(this, item)}
 													hoverable={true}
-													cover={<img src={item.cover} width={200} height={300}/>}
-													title={item.title}
+													cover={<img src={item.vod_pic} width={200} height={300}/>}
+													title={item.vod_name}
 												>
-													<div style={style.title}><span>年份：{item.year}</span><span>评分：{item.score}</span></div>
-													{item.actor ? <div style={style.word}>{`${item.actor[0]} ${item.actor[1]}`}</div> : ''}
-													<div>{item.finish ? `全集${item.upinfo}` : `更新至${item.upinfo}集`}</div>
-													<div style={style.word}>{item.word ? `${item.word}` : ``}</div>
+													{/*<div style={style.title}><span>年份：{item.year}</span><span>评分：{item.score}</span></div>*/}
+													{/*{item.actor ? <div style={style.word}>{`${item.actor[0]} ${item.actor[1]}`}</div> : ''}*/}
+													{/*<div>{item.finish ? `全集${item.upinfo}` : `更新至${item.upinfo}集`}</div>*/}
+													<div>{`更新至${item.vod_remarks}`}</div>
+													{/*<div style={style.word}>{item.word ? `${item.word}` : ``}</div>*/}
 												</Card>
 											</List.Item>
 										)}
 									/>,
 								</InfiniteScroll>
 							</TabPane>
+
 						)}
+						<TabPane tab="全网搜索" key="search">Content of Tab Pane 1</TabPane>
 					</Tabs>
 				</StickyContainer>
 			</div>

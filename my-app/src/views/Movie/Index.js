@@ -10,8 +10,10 @@ export default class Index extends React.Component {
 			activeKey: 'tv',
 			cid: 3,
 			tid: 3,
+			type: 13,
 			listData: [],
 			start: 0,
+			page: 1,
 			loading: true,
 			navList: [
 				{
@@ -19,46 +21,61 @@ export default class Index extends React.Component {
 					id: 'tv',
 					tid: 3,
 					cid: 3,
+					type: 13
 				},
 				{
 					name: '电影',
 					id: 'movie',
 					tid: 22,
 					cid: 4,
+					type: 6
 				},
 				{
 					name: '综艺',
 					id: 'shows',
 					tid: 413,
 					cid: 5,
+					type: 3,
 				},
 				{
 					name: '韩剧',
 					id: 'koreaTv',
 					tid: 6,
 					cid: 3,
+					type: 15,
 				},
 				{
 					name: '美剧',
 					id: 'americanTv',
 					tid: 8,
 					cid: 3,
-				}
+					type: 16,
+				},
+				{
+					name: '动漫',
+					id: 'canton',
+					tid: 413,
+					cid: 5,
+					type: 4,
+				},
 			]
 		}
 	}
 	handleChange (e) {
-		let cid = null;
-		let tid = null;
 		this.state.navList.forEach((val, index) => {
 			if (val.id === e) {
                 this.setState({
                     activeKey: e,
+	                type: val.type,
                     cid: val.cid,
                     tid: val.tid,
                 }, () => {
                     this.getData();
 				});
+			} else {
+				this.setState({
+					activeKey: e,
+				})
 			}
 		});
 
@@ -70,17 +87,21 @@ export default class Index extends React.Component {
 		this.setState({
 			loading: false,
 			start: this.state.start + 20,
+			page: this.state.page + 1,
 		}, () => {
 			axios({
 				method: 'post',
-				url: 'http://192.168.254.100:20200/movie/list',
+				url: 'http://192.168.99.54:20200/movie/list',
 				data: {
-					cid: this.state.cid,
-					tid: this.state.tid,
-					start: this.state.start,
+					type: this.state.type,
+					page: this.state.page,
+					// cid: this.state.cid,
+					// tid: this.state.tid,
+					// start: this.state.start,
 				}
 			}).then((res) => {
-				let data = res.data.data.data.data.datas;
+				console.log(res);
+				let data = res.data.data.list;
 				this.setState({
 					listData: this.state.listData.concat(data),
 					loading: true
@@ -95,16 +116,19 @@ export default class Index extends React.Component {
 		}, () => {
 			axios({
 				method: 'post',
-				url: 'http://192.168.254.100:20200/movie/list',
+				url: 'http://192.168.99.54:20200/movie/list',
 				data: {
-					cid: this.state.cid,
-					tid: this.state.tid,
-					start: this.state.start
+					type: this.state.type
+					// cid: this.state.cid,
+					// tid: this.state.tid,
+					// start: this.state.start
 				}
 			}).then((res) => {
-				let data = res.data.data.data.data.datas;
+				console.log(res);
+				let data = res.data.data.list;
 				this.setState({
-					listData: data
+					listData: this.state.listData.concat(data),
+					loading: true
 				})
 			})
 		});
