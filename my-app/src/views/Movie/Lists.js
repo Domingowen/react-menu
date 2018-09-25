@@ -4,9 +4,11 @@ import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import _ from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
 import { StickyContainer, Sticky } from 'react-sticky';
-import { List, Card, Tabs } from 'antd';
+import { List, Card, Tabs, Input } from 'antd';
 import history from '../../common/history';
+import SearchComponent from './Search';
 const TabPane = Tabs.TabPane;
+const Search = Input.Search;
 export default class Lists extends React.PureComponent {
 	constructor (props) {
 		super();
@@ -87,7 +89,9 @@ export default class Lists extends React.PureComponent {
 							</TabPane>
 
 						)}
-						<TabPane tab="全网搜索" key="search">Content of Tab Pane 1</TabPane>
+						<TabPane tab="试试全网搜索" key="search">
+							<SearchComponent/>
+						</TabPane>
 					</Tabs>
 				</StickyContainer>
 			</div>

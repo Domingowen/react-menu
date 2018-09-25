@@ -21,18 +21,30 @@ export default class MusicList extends React.Component {
 	handleDelete () {
 
 	}
-	getLocalStore () {
+	async getLocalStore () {
         let dataList = JSON.parse(localStorage.getItem('musicList'));
         // console.log(dataList);
         if(dataList) {
-            let arrList = dataList.map(val => {
+            let arrList = await dataList.map(val => {
                 val.name = val.title;
                 val.artist = val.author;
                 val.cover = val.pic;
                 return val;
             });
+            // console.log(arrList);
             // this.player = new APlayer({
-            //     container: document.getElementById('player'),
+            //     container: this.playerComponent,
+            //     mini: false,
+            //     autoplay: false,
+            //     theme: '#FADFA3',
+            //     loop: 'all',
+            //     order: 'random',
+            //     preload: 'auto',
+            //     volume: 0.7,
+            //     mutex: true,
+            //     listFolded: false,
+            //     listMaxHeight: 90,
+            //     lrcType: 3,
             //     audio: arrList,
             // });
             // console.log(arrList);
@@ -47,10 +59,11 @@ export default class MusicList extends React.Component {
             // });
         }
     }
-	componentDidMount () {
+	componentWillMount () {
        this.getLocalStore();
     }
 	player = null;
+    playerComponent = null;
     render () {
     	return (
     		<div>
@@ -74,7 +87,7 @@ export default class MusicList extends React.Component {
                         </List.Item>
                     )}
 				/>
-				{/*<div id="player"></div>*/}
+				{/*<div id="player" ref={video => this.playerComponent = video}></div>*/}
 			</div>
 		)
 	}

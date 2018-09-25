@@ -9,10 +9,6 @@
     "history": "^4.7.2",
     "hls.js": "^0.11.0",
     "jsonp": "^0.2.1",
-    "koa": "^2.5.2",
-    "koa-bodyparser": "^4.2.1",
-    "koa-router": "^7.4.0",
-    "koa2-cors": "^2.0.6",
     "lodash": "^4.17.11",
     "react": "^16.4.2",
     "react-aplayer": "^1.0.0",
@@ -28,8 +24,7 @@
     "react-sticky": "^6.0.3",
     "react-virtualized": "^9.20.1",
     "redux": "^4.0.0",
-    "skplayer": "^3.0.8",
-    "superagent": "^3.8.3"
+    "skplayer": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

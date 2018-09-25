@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from "axios";
-import { Tabs } from 'antd';
+import { Tabs, Button } from 'antd';
 import history from '../../common/history';
 import 'dplayer/dist/DPlayer.min.css';
 import DPlayer from 'dplayer';
@@ -16,6 +16,8 @@ export default class Detail extends React.Component {
 			actorList: [],
 			episodeList: [],
 			iframeUrl: null,
+			activeIndex: 0,
+			activeColor: '1px solid #ccc',
 		};
 	}
 	componentWillMount () {
@@ -26,10 +28,11 @@ export default class Detail extends React.Component {
 	componentDidMount () {
 		if(this.state.iframeUrl) {}
 	}
-	playVideo (item) {
+	playVideo (item, index) {
 		console.log(item);
 		this.setState({
-			iframeUrl: item
+			iframeUrl: item,
+			activeIndex: index,
 		}, () => {
 			document.getElementById('videoUrl').setAttribute('src', this.state.iframeUrl);
 			console.log(this.player);
@@ -43,7 +46,7 @@ export default class Detail extends React.Component {
 		let stateParam = history.location.state;
 		// console.log(stateParam);
 		axios({
-			url: 'http://192.168.99.54:20200/movie/detail',
+			url: 'http://192.168.254.100:20200/movie/detail',
 			method: 'post',
 			data: {
 				ids: stateParam.movieId.vod_id
@@ -56,6 +59,10 @@ export default class Detail extends React.Component {
 			let data = res.data.data.list[0];
 			let actorList = res.data.data.list[0].vod_actor.split(',');
 			let episodeList = res.data.data.list[0].vod_play_url.split('#');
+			// episodeList.map(val => {
+			// 	val.active = false;
+			// 	return val;
+			// });
 			let firstItem = episodeList[0].split('$')[1];
 			console.log(episodeList);
 			this.setState({
@@ -118,12 +125,15 @@ export default class Detail extends React.Component {
 			header_gather_list: {
 				// width: '20px',
 				// height: '20px',
-				border: '1px solid #ccc',
+				// border: '1px solid #ccc',
 				marginLeft: '5px',
 				marginBottom: '5px',
-				padding: '10px',
-				cursor: 'pointer'
+				// padding: '10px',
+				// cursor: 'pointer'
 				// marginLeft: '20px'
+			},
+            header_gather_active: {
+				border: ''
 			},
 			player: {
 				margin: '0 auto',
@@ -137,7 +147,10 @@ export default class Detail extends React.Component {
 		};
 		// const actorList = this.state.pageData.actor.map(val => {return <span>{val}</span>});
 		// const actorList = this.state.pageData.actorList.map(val => <span>{val}</span>);
-		const episodeList = this.state.episodeList.map(val => <span key={val} style={detail.header_gather_list} onClick={this.playVideo.bind(this, val.split('$')[1])}>{val.split('$')[0]}</span>);
+		const episodeList = this.state.episodeList.map((val, index) => {
+			return <Button key={val} size={'default'} style={detail.header_gather_list} onClick={this.playVideo.bind(this, val.split('$')[1], index)}>{val.split('$')[0]}</Button>
+            }
+		);
 
 		return (
 			<div style={detail.container}>
