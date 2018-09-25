@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import 'aplayer/dist/APlayer.min.css';
 // import skPlayer from 'skplayer';
 import APlayer from 'aplayer';
+import MusicPlayer from '../Music/MusicPlayer';
 // import Player from './test';
 // import ReactAPlayer from 'react-aplayer';
 
@@ -21,11 +22,11 @@ export default class MusicList extends React.Component {
 	handleDelete () {
 
 	}
-	async getLocalStore () {
+	getLocalStore () {
         let dataList = JSON.parse(localStorage.getItem('musicList'));
         // console.log(dataList);
         if(dataList) {
-            let arrList = await dataList.map(val => {
+            let arrList = dataList.map(val => {
                 val.name = val.title;
                 val.artist = val.author;
                 val.cover = val.pic;
@@ -68,7 +69,7 @@ export default class MusicList extends React.Component {
     	return (
     		<div>
                 <List
-                    className="demo-loadmore-list"
+	                style={{height: '70vh', overflow: 'auto'}}
                     // loading={initLoading}
                     itemLayout="horizontal"
                     // loadMore={loadMore}
@@ -87,6 +88,7 @@ export default class MusicList extends React.Component {
                         </List.Item>
                     )}
 				/>
+				<MusicPlayer/>
 				{/*<div id="player" ref={video => this.playerComponent = video}></div>*/}
 			</div>
 		)

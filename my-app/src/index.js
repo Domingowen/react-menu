@@ -10,9 +10,13 @@ import 'aplayer/dist/APlayer.min.css';
 import APlayer from 'aplayer';
 // const history =History();
 // const history = History();
+import {Provider} from 'react-redux';
+import store from './redux/index';
 ReactDOM.render(
-	<Router history={history}>
-		<App/>
-	</Router>,
+		<Provider store={store}>
+			<Router history={history}>
+				<App/>
+			</Router>
+		</Provider>,
 	document.getElementById('root'));
 registerServiceWorker();

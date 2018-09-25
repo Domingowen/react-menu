@@ -9,7 +9,7 @@ export default class VList extends React.Component {
 	componentWillMount () {
 		axios({
 			method: 'post',
-			url: 'http://192.168.254.100:20200/fiction/list',
+			url: 'http://192.168.99.54:20200/fiction/list',
 		}).then((res) => {
 			console.log(res)
 		})

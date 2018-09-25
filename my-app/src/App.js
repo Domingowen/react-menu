@@ -18,11 +18,10 @@ class App extends React.Component {
 			}
 		};
 		return (
-			<div className="App">
+			<div className="App" style={{position: 'reactive'}}>
 				{/*<h1 style={style.header}>数据来源于互联网，如有侵权，请告知</h1>*/}
 				<Route path='/' component={Home}/>
 				{/*<Home/>*/}
-				<MusicPlayer/>
 			</div>
 		);
 	}

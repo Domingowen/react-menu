@@ -46,7 +46,7 @@ export default class Detail extends React.Component {
 		let stateParam = history.location.state;
 		// console.log(stateParam);
 		axios({
-			url: 'http://192.168.254.100:20200/movie/detail',
+			url: 'http://192.168.99.54:20200/movie/detail',
 			method: 'post',
 			data: {
 				ids: stateParam.movieId.vod_id

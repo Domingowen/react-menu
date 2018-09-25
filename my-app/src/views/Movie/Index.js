@@ -91,7 +91,7 @@ export default class Index extends React.Component {
 		}, () => {
 			axios({
 				method: 'post',
-				url: 'http://192.168.254.100:20200/movie/list',
+				url: 'http://192.168.99.54:20200/movie/list',
 				data: {
 					type: this.state.type,
 					page: this.state.page,
@@ -116,7 +116,7 @@ export default class Index extends React.Component {
 		}, () => {
 			axios({
 				method: 'post',
-				url: 'http://192.168.254.100:20200/movie/list',
+				url: 'http://192.168.99.54:20200/movie/list',
 				data: {
 					type: this.state.type
 					// cid: this.state.cid,
