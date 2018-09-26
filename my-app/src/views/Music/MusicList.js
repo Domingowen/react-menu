@@ -16,11 +16,23 @@ export default class MusicList extends React.Component {
             listData: [],
         }
     }
-    handlePlay () {
-
+    handlePlay (e) {
+        console.log(e);
+        axios({
+            url: 'http://192.168.254.100:20200/music/play',
+            method: 'post',
+            data: {
+                id: e.songid,
+                filter: 'id',
+                type: e.type,
+                page: 1
+            }
+        }).then((res) => {
+            console.log(res.data.data);
+        })
 	}
-	handleDelete () {
-
+	handleDelete (e) {
+        console.log(e);
 	}
 	getLocalStore () {
         let dataList = JSON.parse(localStorage.getItem('musicList'));
@@ -32,32 +44,9 @@ export default class MusicList extends React.Component {
                 val.cover = val.pic;
                 return val;
             });
-            // console.log(arrList);
-            // this.player = new APlayer({
-            //     container: this.playerComponent,
-            //     mini: false,
-            //     autoplay: false,
-            //     theme: '#FADFA3',
-            //     loop: 'all',
-            //     order: 'random',
-            //     preload: 'auto',
-            //     volume: 0.7,
-            //     mutex: true,
-            //     listFolded: false,
-            //     listMaxHeight: 90,
-            //     lrcType: 3,
-            //     audio: arrList,
-            // });
-            // console.log(arrList);
-            // this.player.destroy();
             this.setState({
                 listData: arrList
             })
-            //     this.player = new APlayer({
-            //         container: document.getElementById('player'),
-            //         audio: this.state.listData,
-            //     })
-            // });
         }
     }
 	componentWillMount () {
@@ -76,7 +65,7 @@ export default class MusicList extends React.Component {
                     dataSource={this.state.listData}
                     locale={{emptyText: '还没有播放历史哦，快去添加歌曲吧'}}
                     renderItem={item => (
-                        <List.Item actions={[<a onClick={this.handlePlay.bind(this)}>播放</a>, <a onClick={this.handleDelete.bind(this)}>删除</a>]}>
+                        <List.Item actions={[<a onClick={this.handlePlay.bind(this, item)}>播放</a>, <a onClick={this.handleDelete.bind(this, item)}>删除</a>]}>
                             {/*<Skeleton avatar title={false} active>*/}
                                 <List.Item.Meta
                                     // avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
